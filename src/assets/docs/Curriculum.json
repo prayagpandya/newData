@@ -1,0 +1,122 @@
+{
+  "imgs": [{ "img1": "../images/data.png" }],
+  "courses": [
+    {
+      "id": 1,
+      "title": "Data Analyst Course",
+      "price": "Free",
+      "lessons": 40,
+      "seats": 30,
+      "duration": 30,
+      "description": "Learn the fundamentals of data analysis, including data cleaning, analysis, and visualization using tools like Python, Excel, and SQL.",
+      "overview": "The jQuery and JavaScript Fundamental Course offers a comprehensive introduction to both JavaScript and jQuery, two essential programming languages for front-end web development. Participants will gain a solid understanding of the core concepts, syntax, and functionalities of these languages, enabling them to create interactive and dynamic web applications.",
+      "Objectives": [
+        "Understand the fundamentals of JavaScript and jQuery and their respective roles in web development.",
+        "Learn how to write clean and efficient JavaScript code.",
+        "Explore the various methods and features of jQuery and how to incorporate them in web projects.",
+        "Develop the skills to manipulate HTML elements, handle events, and create dynamic user interfaces using JavaScript and jQuery.",
+        "Gain hands-on experience in building interactive web applications through practical coding exercises and real-world projects."
+      ],
+      "img": "../images/data.png",
+      "curriculum": [
+        {
+          "title": "Python",
+          "data": [
+            "Introduction of Python",
+            "Data Type",
+            "Operators",
+            "Type conversion",
+            "List, Tuple, Dictionary",
+            "Condition",
+            "Loop"
+          ]
+        },
+        {
+          "title": "Machine Learning",
+          "data": [
+            "Introduction to Machine Learning",
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Model Evaluation and Selection"
+          ]
+        },
+        {
+          "title": "Python",
+          "data": [
+            "Introduction of Python",
+            "Data Type",
+            "Operators",
+            "Type conversion",
+            "List, Tuple, Dictionary",
+            "Condition",
+            "Loop"
+          ]
+        },
+        {
+          "title": "Machine Learning",
+          "data": [
+            "Introduction to Machine Learning",
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Model Evaluation and Selection"
+          ]
+        },
+        {
+          "title": "Python",
+          "data": [
+            "Introduction of Python",
+            "Data Type",
+            "Operators",
+            "Type conversion",
+            "List, Tuple, Dictionary",
+            "Condition",
+            "Loop"
+          ]
+        },
+        {
+          "title": "Machine Learning",
+          "data": [
+            "Introduction to Machine Learning",
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Model Evaluation and Selection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Advanced Data Analyst Course",
+      "price": "Free",
+      "description": "Deep dive into advanced data analysis techniques, machine learning, and big data technologies to elevate your data skills.",
+      "img": "img2",
+      "curriculum": [
+        {
+          "title": "Python",
+          "data": [
+            "Introduction of Python",
+            "Data Type",
+            "Operators",
+            "Type conversion",
+            "List, Tuple, Dictionary",
+            "Condition",
+            "Loop"
+          ]
+        },
+        {
+          "title": "Machine Learning",
+          "data": [
+            "Introduction to Machine Learning",
+            "Supervised Learning",
+            "Unsupervised Learning",
+            "Reinforcement Learning",
+            "Model Evaluation and Selection"
+          ]
+        }
+      ]
+    }
+  ]
+}
