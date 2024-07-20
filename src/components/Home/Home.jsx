@@ -233,7 +233,7 @@ const Home = () => {
           alignItems={'center'}
         >
           <Heading
-            mb={['0', '0', '0', '10', '16', '20']}
+            my={['2', '2', '2', '16', '20']}
             textAlign={'center'}
             fontWeight={'400'}
             fontSize={['3xl', '5xl']}

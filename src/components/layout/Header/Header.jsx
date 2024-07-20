@@ -391,7 +391,9 @@ const Header = () => {
                   {isAuthenticated ? (
                     <VStack>
                       <HStack>
-                        <Link to="/profile">
+                        <Link
+                          to={`/profile/${sessionStorage.getItem('userId')}`}
+                        >
                           <Button
                             variant="ghost"
                             colorScheme="yellow"

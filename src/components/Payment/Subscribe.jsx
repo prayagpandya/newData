@@ -10,6 +10,7 @@ import {
 import React from 'react';
 
 const Subscribe = () => {
+  const storeCourseName = sessionStorage.getItem('courseName');
   return (
     <Container p={'16'} maxW={'5xl'}>
       <Heading children="Welcome" m={'8'} textAlign={'center'} />

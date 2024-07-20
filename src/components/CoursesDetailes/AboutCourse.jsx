@@ -32,6 +32,8 @@ import { BsCollectionPlay } from 'react-icons/bs';
 import { AiOutlineFieldTime, AiOutlineUserAdd } from 'react-icons/ai';
 import { url } from '../../url';
 
+import { useLocation } from 'react-router-dom';
+
 const AboutCourse = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
@@ -43,6 +45,8 @@ const AboutCourse = () => {
   const bg = useColorModeValue('gray.100', 'gray.700');
   const color = useColorModeValue('gray.800', 'white');
   const toast = useToast();
+  const history = useLocation(); // Use useHistory for navigation
+
   useEffect(() => {
     // Fetch the course data
     axios
@@ -85,6 +89,11 @@ const AboutCourse = () => {
       .catch(error => {
         console.error('Error booking demo:', error);
       });
+  };
+
+  const handleEnrollNow = () => {
+    sessionStorage.setItem('courseId', course._id); // Store course name in sessionStorage
+    window.location.replace('/payment'); // Redirect to payment page
   };
 
   if (!course) {
@@ -157,15 +166,17 @@ const AboutCourse = () => {
             {course.briefDescription}
           </Text>
 
-          {/* <Text fontSize={'2xl'} fontWeight={'bold'} color={color}>
-            {course.price}
-          </Text> */}
           <Stack direction={['column', 'row']} spacing={4} w={'full'} mt={8}>
             <Button colorScheme={'yellow'} w={['full']} onClick={onOpen}>
               Book Free Demo
             </Button>
-            <Button variant={'outline'} colorScheme={'yellow'} w={['full']}>
-              <Link to={'/payment'}>Enroll Now</Link>
+            <Button
+              variant={'outline'}
+              colorScheme={'yellow'}
+              w={['full']}
+              onClick={handleEnrollNow}
+            >
+              Enroll Now
             </Button>
           </Stack>
         </VStack>

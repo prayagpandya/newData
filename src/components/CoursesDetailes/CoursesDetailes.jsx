@@ -1,42 +1,41 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import introvideo from '../../assets/videos/intro.mp4';
+import { url } from '../../url';
 
 const CoursesDetailes = () => {
-  //   const LectureTitle = 'Introduction';
-  const [LectureNumber, setLectureNumber] = useState(0);
-  //   const Description = 'This is a description';
-  const lectures = [
-    {
-      _id: 'fdfsd',
-      title: 'Introduction',
-      description: 'This is a description',
-      video: {
-        url: introvideo,
-      },
-    },
-    {
-      _id: 'abc123',
-      title: 'Chapter 1',
-      description: 'Description for Chapter 1',
-      video: {
-        url: 'https://sharedby.blomp.com/WZV064',
-      },
-    },
-    {
-      _id: 'def456',
-      title: 'Chapter 2',
-      description: 'Description for Chapter 2',
-      video: {
-        url: introvideo,
-      },
-    },
-  ];
+  const { id } = useParams();
+  const [course, setCourse] = useState(null);
+  const [lectureNumber, setLectureNumber] = useState(0);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(
+          `${url}/api/v1/courses/get-course/${id}`
+        );
+        console.log('Course Data:', response.data); // Debugging line
+        setCourse(response.data);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      }
+    };
+
+    fetchCourseData();
+  }, [id]);
+
+  if (!course || !course.modules || course.modules.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']}>
       <Box>
         <Heading
-          children={`#${LectureNumber + 1} ${lectures[LectureNumber].title}`}
+          children={`#${lectureNumber + 1} ${
+            course.modules[0].videos[lectureNumber].title
+          }`}
           m={'4'}
           size={['lg']}
           textAlign={['center']}
@@ -45,22 +44,27 @@ const CoursesDetailes = () => {
         <video
           width={'100%'}
           controls
-          controlsList="nodownload  noremoteplayback"
+          controlsList="nodownload noremoteplayback"
           disablePictureInPicture
           disableRemotePlayback
-          src={lectures[LectureNumber].video.url}
+          src={course.modules[0].videos[lectureNumber].path}
         ></video>
 
         <Heading
-          children={`#${LectureNumber + 1} ${lectures[LectureNumber].title}`}
+          children={`#${lectureNumber + 1} ${
+            course.modules[0].videos[lectureNumber].title
+          }`}
           m={'4'}
           display={['none', 'block']}
         />
         <Heading children="Description" m={'4'} />
-        <Text m={'4'} children={lectures[LectureNumber].description} />
+        <Text
+          m={'4'}
+          children={course.modules[0].videos[lectureNumber].title}
+        />
       </Box>
       <VStack mt={'10'}>
-        {lectures.map((item, index) => (
+        {course.modules[0].videos.map((item, index) => (
           <button
             onClick={() => setLectureNumber(index)}
             key={item._id}

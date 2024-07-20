@@ -13,10 +13,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Stack,
   Text,
   useDisclosure,
   VStack,
+  Box,
 } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -45,6 +47,14 @@ const Profile = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log('FrontEnd User Data', response);
+        const getCourse = async () => {
+          const courseResponse = await axios.get(
+            `${url}/api/v1/course/get-course/${userId}`
+          );
+          console.log('FrontEnd Course Data', courseResponse);
+          setUser({ ...response.data.user, courses: courseResponse.data });
+        };
         setUser(response.data.user);
         setName(response.data.user.name);
         setEmail(response.data.user.email);
@@ -120,7 +130,13 @@ const Profile = () => {
         padding={'8'}
       >
         <VStack>
-          <Avatar src={imgPreview || `${url}/${user.photo}`} boxSize={'48'} />
+          <Image
+            boxSize={'180px'}
+            src={`${url}${user.photo}`}
+            objectFit={'cover'}
+            borderRadius={'full'}
+            alt="Profile"
+          />
           <Button onClick={onOpen} colorScheme={'yellow'} variant={'ghost'}>
             Change Photo
           </Button>
@@ -191,6 +207,33 @@ const Profile = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {/* Courses Section */}
+      <Heading mt={'8'} mb={'4'} children="My Courses" />
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
+        {user.courses.map((course, index) => (
+          <Link to={`/profile/course/${course._id}`} key={index}>
+            <Box
+              key={index}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+            >
+              <Image src={`${url}${course.photo}`} alt={course.title} />
+              <Box p="6">
+                <Box d="flex" alignItems="baseline">
+                  <Text fontWeight="bold" textTransform="uppercase">
+                    {course.title}
+                  </Text>
+                </Box>
+                <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight">
+                  {course.briefDescription}
+                </Box>
+              </Box>
+            </Box>
+          </Link>
+        ))}
+      </SimpleGrid>
     </Container>
   );
 };
