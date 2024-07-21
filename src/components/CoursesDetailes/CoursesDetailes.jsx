@@ -1,87 +1,138 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Spinner,
+  Alert,
+  AlertIcon,
+  Grid,
+  HStack
+} from '@chakra-ui/react';
 import { url } from '../../url';
 
 const CoursesDetailes = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [lectureNumber, setLectureNumber] = useState(0);
+  const [moduleIndex, setModuleIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(
-          `${url}/api/v1/courses/get-course/${id}`
-        );
-        console.log('Course Data:', response.data); // Debugging line
-        setCourse(response.data);
+        const response = await axios.get(`${url}/api/v1/courses/get-course/${id}`);
+        console.log('Course Data:', response.data);
+        setCourse(response.data.course);
       } catch (error) {
         console.error('Error fetching course data:', error);
+        setError('Failed to load course data.');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourseData();
   }, [id]);
 
-  if (!course || !course.modules || course.modules.length === 0) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <Box textAlign="center" mt="20">
+        <Spinner size="xl" />
+      </Box>
+    );
   }
 
+  if (error) {
+    return (
+      <Box textAlign="center" mt="20">
+        <Alert status="error">
+          <AlertIcon />
+          {error}
+        </Alert>
+      </Box>
+    );
+  }
+
+  if (!course || !course.modules || course.modules.length === 0) {
+    console.log("Modules Error:", course);
+    return <div>No course data available.</div>;
+  }
+
+  const currentModule = course.modules[moduleIndex];
+  const currentVideo = currentModule.videos[lectureNumber];
+
   return (
-    <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']}>
+    <Grid minH="90vh" templateRows="auto 1fr" mt={20}>
       <Box>
         <Heading
-          children={`#${lectureNumber + 1} ${
-            course.modules[0].videos[lectureNumber].title
-          }`}
-          m={'4'}
-          size={['lg']}
-          textAlign={['center']}
-          display={['block', 'none']}
+          children={`#${lectureNumber + 1} ${currentVideo?.title || 'Loading...'}`}
+          m={4}
+          size="lg"
+          textAlign="center"
         />
-        <video
-          width={'100%'}
-          controls
-          controlsList="nodownload noremoteplayback"
-          disablePictureInPicture
-          disableRemotePlayback
-          src={course.modules[0].videos[lectureNumber].path}
-        ></video>
+        {currentVideo ? (
+          <video
+            width="100%"
+            controls
+            controlsList="nodownload noremoteplayback"
+            disablePictureInPicture
+            disableRemotePlayback
+            src={`${url}${currentVideo.path}`}
+          />
+        ) : (
+          <Text>Loading video...</Text>
+        )}
 
-        <Heading
-          children={`#${lectureNumber + 1} ${
-            course.modules[0].videos[lectureNumber].title
-          }`}
-          m={'4'}
-          display={['none', 'block']}
-        />
-        <Heading children="Description" m={'4'} />
-        <Text
-          m={'4'}
-          children={course.modules[0].videos[lectureNumber].title}
-        />
+        <Heading textAlign={'center'} children={currentModule.title} m={4} />
+    
       </Box>
-      <VStack mt={'10'}>
-        {course.modules[0].videos.map((item, index) => (
-          <button
-            onClick={() => setLectureNumber(index)}
-            key={item._id}
-            style={{
-              width: '100%',
-              padding: '1rem',
-              textAlign: 'center',
-              margin: 0,
-              borderBottom: '1px solid rgba(0,0,0,0.2)',
-            }}
-          >
-            <Text noOfLines={1}>
-              #{index + 1} {item.title}
-            </Text>
-          </button>
+
+      <Accordion allowMultiple width="100%" mt={10}>
+        {course.modules.map((module, mIndex) => (
+          <AccordionItem key={module._id}>
+            <AccordionButton onClick={() => setModuleIndex(mIndex)}>
+              <Box flex="1" textAlign="left">
+                {module.title}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel pb={4}>
+              <Accordion allowMultiple>
+                {module.videos.map((video, vIndex) => (
+                  <AccordionItem key={video._id}>
+                    <AccordionButton onClick={() => setLectureNumber(vIndex)}>
+                      <Box flex="1" textAlign="left">
+                        #{vIndex + 1} {video.title}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <HStack>
+                        <Text fontWeight="bold">Title:</Text>
+                        <Text>{video.title}</Text>
+                      </HStack>
+                      <HStack>
+                        <Text fontWeight="bold">Description:</Text>
+                        <Text>{video.description}</Text>
+                      </HStack>
+                    </AccordionPanel>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </AccordionPanel>
+          </AccordionItem>
         ))}
-      </VStack>
+      </Accordion>
     </Grid>
   );
 };
