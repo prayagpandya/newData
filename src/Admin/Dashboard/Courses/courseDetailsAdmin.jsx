@@ -63,12 +63,17 @@ const CourseDetailsAdmin = () => {
     const fetchCourseDetails = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${url}/api/v1/courses/get-course/${courseId}`);
+        const response = await axios.get(
+          `${url}/api/v1/courses/get-course/${courseId}`
+        );
         const courseData = response.data.course;
         setCourse(courseData);
         setEditCourse({
           ...courseData,
-          objectives: courseData.objectives.map(text => ({ id: uuidv4(), text })),
+          objectives: courseData.objectives.map(text => ({
+            id: uuidv4(),
+            text,
+          })),
           overview: courseData.overview.map(text => ({ id: uuidv4(), text })),
         });
       } catch (error) {
@@ -100,14 +105,18 @@ const CourseDetailsAdmin = () => {
   const handleObjectivesChange = (id, value) => {
     setEditCourse(prev => ({
       ...prev,
-      objectives: prev.objectives.map(obj => (obj.id === id ? { ...obj, text: value } : obj)),
+      objectives: prev.objectives.map(obj =>
+        obj.id === id ? { ...obj, text: value } : obj
+      ),
     }));
   };
 
   const handleOverviewChange = (id, value) => {
     setEditCourse(prev => ({
       ...prev,
-      overview: prev.overview.map(obj => (obj.id === id ? { ...obj, text: value } : obj)),
+      overview: prev.overview.map(obj =>
+        obj.id === id ? { ...obj, text: value } : obj
+      ),
     }));
   };
 
@@ -202,7 +211,9 @@ const CourseDetailsAdmin = () => {
 
   const handleDeleteModule = async moduleId => {
     try {
-      await axios.delete(`${url}/api/v1/courses/modules/${courseId}/delete-module/${moduleId}`);
+      await axios.delete(
+        `${url}/api/v1/courses/modules/${courseId}/delete-module/${moduleId}`
+      );
 
       setCourse(prev => ({
         ...prev,
@@ -230,7 +241,9 @@ const CourseDetailsAdmin = () => {
 
   const handleDeleteVideo = async (moduleId, videoId) => {
     try {
-      await axios.delete(`${url}/api/v1/courses/modules/${courseId}/${moduleId}/delete-video/${videoId}`);
+      await axios.delete(
+        `${url}/api/v1/courses/modules/${courseId}/${moduleId}/delete-video/${videoId}`
+      );
 
       setCourse(prev => ({
         ...prev,
@@ -300,6 +313,7 @@ const CourseDetailsAdmin = () => {
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
+      console.log(response);
       setCourse(prev => ({
         ...prev,
         modules: prev.modules.map(module => {
@@ -363,6 +377,7 @@ const CourseDetailsAdmin = () => {
                   <Tr>
                     <Th>Title</Th>
                     <Th>Description</Th>
+                    <Th>Preview</Th>
                     <Th>Actions</Th>
                   </Tr>
                 </Thead>
@@ -371,10 +386,21 @@ const CourseDetailsAdmin = () => {
                     <Tr key={video?._id}>
                       <Td>{video?.title}</Td>
                       <Td>{video?.description}</Td>
+                      <Td boxSize={'200px'}>
+                        <video
+                          controls
+                          controlsList="nodownload noremoteplayback"
+                          disablePictureInPicture
+                          disableRemotePlayback
+                          src={`${url}${video?.path}`}
+                        />
+                      </Td>
                       <Td>
                         <Button
                           colorScheme="red"
-                          onClick={() => handleDeleteVideo(module?._id, video?._id)}
+                          onClick={() =>
+                            handleDeleteVideo(module?._id, video?._id)
+                          }
                         >
                           Delete
                         </Button>
@@ -383,13 +409,21 @@ const CourseDetailsAdmin = () => {
                   ))}
                 </Tbody>
               </Table>
-              <Button mt={4} colorScheme="blue" onClick={() => {
-                setSelectedModuleId(module?._id); // Set the selected module ID
-                onVideoUploadOpen();
-              }}>
+              <Button
+                mt={4}
+                colorScheme="blue"
+                onClick={() => {
+                  setSelectedModuleId(module?._id); // Set the selected module ID
+                  onVideoUploadOpen();
+                }}
+              >
                 Upload Video
               </Button>
-              <Button mt={4} colorScheme="red" onClick={() => handleDeleteModule(module._id)}>
+              <Button
+                mt={4}
+                colorScheme="red"
+                onClick={() => handleDeleteModule(module._id)}
+              >
                 Delete Module
               </Button>
             </AccordionPanel>
@@ -446,8 +480,12 @@ const CourseDetailsAdmin = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleSaveCourse}>Save</Button>
-            <Button variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button colorScheme="blue" onClick={handleSaveCourse}>
+              Save
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -468,8 +506,12 @@ const CourseDetailsAdmin = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleAddModule}>Add</Button>
-            <Button variant="ghost" onClick={onModuleClose}>Cancel</Button>
+            <Button colorScheme="blue" onClick={handleAddModule}>
+              Add
+            </Button>
+            <Button variant="ghost" onClick={onModuleClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -483,7 +525,11 @@ const CourseDetailsAdmin = () => {
           <ModalBody>
             <FormControl mb={4}>
               <FormLabel>Video File</FormLabel>
-              <Input type="file" accept="video/*" onChange={handleVideoFileChange} />
+              <Input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoFileChange}
+              />
             </FormControl>
             <FormControl mb={4}>
               <FormLabel>Title</FormLabel>
@@ -491,12 +537,19 @@ const CourseDetailsAdmin = () => {
             </FormControl>
             <FormControl mb={4}>
               <FormLabel>Description</FormLabel>
-              <Textarea value={videoDescription} onChange={handleVideoDescriptionChange} />
+              <Textarea
+                value={videoDescription}
+                onChange={handleVideoDescriptionChange}
+              />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleUploadVideo}>Upload</Button>
-            <Button variant="ghost" onClick={onVideoUploadClose}>Cancel</Button>
+            <Button colorScheme="blue" onClick={handleUploadVideo}>
+              Upload
+            </Button>
+            <Button variant="ghost" onClick={onVideoUploadClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
