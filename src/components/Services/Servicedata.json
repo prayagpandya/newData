@@ -1,0 +1,81 @@
+{
+  "services": [
+    {
+      "01": {
+        "id": "webDevelopement",
+        "name": "Web Development Service",
+        "duration": "3 Months",
+        "capacity": "20 Participants",
+        "briefDescription": "Learn to build modern web applications using React.",
+        "overview": [
+          "This course covers the basics of web development.",
+          "You will learn HTML, CSS, JavaScript, and React.",
+          "By the end of the course, you will build your own web application."
+        ],
+        "objectives": [
+          "Understand web development fundamentals.",
+          "Create responsive web designs.",
+          "Build dynamic web applications using React."
+        ],
+        "photo": "/sample-photo.jpg"
+      }
+    },
+    {
+      "02": {
+        "name": "Data Science Bootcamp",
+        "duration": "6 Months",
+        "capacity": "15 Participants",
+        "briefDescription": "Master data analysis, visualization, and machine learning techniques.",
+        "overview": [
+          "Learn Python, data manipulation, and data visualization.",
+          "Dive into machine learning and build predictive models.",
+          "Understand how to work with large datasets and perform data analysis."
+        ],
+        "objectives": [
+          "Gain proficiency in Python for data science.",
+          "Learn to clean and visualize data effectively.",
+          "Understand machine learning algorithms and how to implement them."
+        ],
+        "photo": "/data-science.jpg"
+      }
+    },
+    {
+      "03": {
+        "name": "Digital Marketing Essentials",
+        "duration": "2 Months",
+        "capacity": "30 Participants",
+        "briefDescription": "Learn digital marketing strategies to grow businesses online.",
+        "overview": [
+          "Understand the fundamentals of SEO, SEM, and social media marketing.",
+          "Learn how to create effective marketing campaigns.",
+          "Gain skills in email marketing, content marketing, and analytics."
+        ],
+        "objectives": [
+          "Develop a comprehensive digital marketing strategy.",
+          "Learn to use SEO and SEM to improve online visibility.",
+          "Create engaging content for social media and digital platforms."
+        ],
+        "photo": "/digital-marketing.jpg"
+      }
+    },
+    {
+      "04": {
+        "name": "Graphic Design Masterclass",
+        "duration": "4 Months",
+        "capacity": "25 Participants",
+        "briefDescription": "Learn to design stunning graphics using modern tools and software.",
+        "overview": [
+          "Understand the principles of graphic design.",
+          "Learn to use software like Photoshop, Illustrator, and Canva.",
+          "Create logos, banners, and other marketing materials."
+        ],
+        "objectives": [
+          "Master graphic design tools and techniques.",
+          "Develop your own design portfolio.",
+          "Create visually appealing designs for various media."
+        ],
+        "photo": "/graphic-design.jpg"
+      }
+    }
+  ]
+}
