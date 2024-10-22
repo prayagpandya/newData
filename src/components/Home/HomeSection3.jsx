@@ -134,41 +134,41 @@ const HomeSection3 = () => {
                 paragraphText={'Online Courses'}
                 IconName={FcReading}
                 Title={'Online Courses'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/courses/0'}
                 bgImg={img01}
               />
               <CardForCourseCatagories
                 paragraphText={'Staffing'}
                 IconName={FcAssistant}
                 Title={'Staffing'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/services/1'}
                 bgImg={img02}
               />
               <CardForCourseCatagories
                 IconName={FcMultipleDevices}
                 Title={'Web/App Development'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/services/2'}
                 bgImg={img03}
                 paragraphText={'Web/App Development'}
               />
               <CardForCourseCatagories
                 IconName={FcPositiveDynamic}
                 Title={'Data Science'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/services/3'}
                 bgImg={img04}
                 paragraphText={'Data Science'}
               />
               <CardForCourseCatagories
                 IconName={FcEditImage}
                 Title={'UI/UX Design'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/services/4'}
                 bgImg={img05}
                 paragraphText={'UI/UX Design'}
               />
               <CardForCourseCatagories
                 IconName={FcFaq}
                 Title={'QA'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={'/services/5'}
                 bgImg={img06}
                 paragraphText={'QA'}
               />

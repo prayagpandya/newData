@@ -1,3 +1,5 @@
+/* eslint-disable no-const-assign */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
@@ -292,7 +294,7 @@ const Header = () => {
 
       <HStack
         display={{ base: 'flex', lg: 'none' }}
-        w="80%"
+        w={['94%', '94%', '94%']}
         justifyContent="space-between"
       >
         <Image
