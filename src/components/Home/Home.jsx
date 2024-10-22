@@ -19,7 +19,6 @@ import './home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { CgGoogle, CgYoutube } from 'react-icons/cg';
 import { SiCoursera, SiUdemy } from 'react-icons/si';
-import introvideo from '../../assets/videos/intro.mp4';
 import bgVid from '../../assets/videos/bg.mp4';
 import { DiAws } from 'react-icons/di';
 import {
@@ -44,7 +43,8 @@ import {
   IoMdStarOutline,
 } from 'react-icons/io';
 import About from '../../assets/images/About.jpg';
-import { Course } from '../Courses/Courses';
+import introvideo from '../../assets/videos/intro.mp4';
+
 import img from '../../assets/images/data.png';
 import Blogs from './Blogs';
 import blogData from '../../assets/docs/Blogs.json';
@@ -60,22 +60,16 @@ import img6 from '../../assets/images/testimonialUsers/6.webp';
 import img7 from '../../assets/images/testimonialUsers/7.webp';
 import axios from 'axios';
 import { url } from '../../url';
-import img01 from '../../assets/images/01.jpg';
-import img02 from '../../assets/images/02.jpg';
-import img03 from '../../assets/images/03.jpg';
-import img04 from '../../assets/images/04.jpg';
-import img05 from '../../assets/images/05.jpg';
-import img06 from '../../assets/images/06.jpg';
-import img001 from '../../assets/images/001.avif';
-import img002 from '../../assets/images/002.avif';
-import img003 from '../../assets/images/003.avif';
-import img004 from '../../assets/images/004.jpg';
-import img005 from '../../assets/images/005.jpg';
-import img006 from '../../assets/images/006.jpg';
+
 import HowWorksCard from '../Cards/HowWorksCard';
+import Section2 from './HomeSection2';
+import HomeSection3 from './HomeSection3';
+import HomeSection4 from './HomeSection4';
+import HomeSection5 from './HomeSection5';
+import PopularCourses from './HomeSection9';
 const Home = () => {
   const [courses, setCourses] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -83,6 +77,7 @@ const Home = () => {
           `${url}/api/v1/courses/get-all-courses`
         );
         setCourses(response.data.courses);
+        setLoading(false);
         console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
@@ -144,9 +139,8 @@ const Home = () => {
     },
   ];
   const groupedTestimonials = [];
-  let itemsPerRow = 3; // Default for desktop
+  let itemsPerRow = 3;
 
-  // Determine number of items per row based on screen width
   if (window.innerWidth < 1024) {
     itemsPerRow = 2; // Tablet
   }
@@ -172,6 +166,7 @@ const Home = () => {
         <div className="backgroundVideoOverlay"></div>
       </div>
       <section className="home" style={{ overflowX: 'hidden' }}>
+        {/* section 1 */}
         <div className="container">
           <Stack
             direction={['column', 'column', 'row']}
@@ -196,7 +191,6 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
                 gap={10}
-                // fontFamily={'IBM Plex Sans'}
               >
                 <Text>Your Dream job Awaits:</Text>
                 <Text mt={4}>Let's Make It Happen</Text>
@@ -228,286 +222,15 @@ const Home = () => {
             </VStack>
           </Stack>
         </div>
+        {/* //section 2 */}
+        <Section2 />
+        {/* //section 3 */}
+        <HomeSection3 />
 
-        <Box
-          className="container2"
-          // style={{
-          //   paddingTop: ['100px', '100px', '90px', '190px', '180px'],
-          //   paddingBottom: ['90px', '90px', '90px', '190px', '180px'],
-          //   display: 'flex',
-          //   flexDirection: 'column',
-          //   alignItems: 'center',
-          // }}
-          width={'100%'}
-          marginY={['35px', '35px', '35px', '180px', '-100px']}
-          display={'flex'}
-          flexDir={'column'}
-          alignItems={'center'}
-        >
-          <Heading
-            my={['2', '2', '2', '16', '20']}
-            textAlign={'center'}
-            fontWeight={'400'}
-            fontSize={['3xl', '5xl']}
-            children={'OUR GOAL IS TO EMPOWER DREAMS ANDACHIEVE EXCELLENCE'}
-          />
-          <Stack
-            direction={['column', 'column', 'column', 'column', 'row']}
-            justifyContent={['center', 'center', 'center', 'flex-start']}
-            alignItems={['center', 'center', 'center', 'self-start']}
-            maxW={['620px', '1580px']}
-            w={['full', 'full', 'full', 'full']}
-            paddingX={['8', '10', '10', '20']}
-            gap={'20'}
-          >
-            {' '}
-            <VStack w={'100%'} h={'100%'} spacing={[5, 0]} align={'flex-start'}>
-              <video
-                autoPlay
-                loop
-                muted
-                controls
-                controlsList="nodownload nofullscreen noremoteplayback"
-                disablePictureInPicture
-                disableRemotePlayback
-                src={introvideo}
-                className="hidden-controls"
-              ></video>
-            </VStack>
-            <VStack
-              // justifyContent={'flex-start'}
-              w={'100%'}
-              mb={10}
-              // spacing={2}
-              align={['flex-start']}
-            >
-              <Text
-                opacity={0.5}
-                fontSize={['lg', 'lg', 'xl']}
-                // letterSpacing={'wide'}
-                wordSpacing={'normal'}
-                fontFamily={'Recursive'}
-              >
-                Welcome to Data Skills Hub, a leading provider of IT upskilling
-                and staffing solutions. At Titans, we specialize in empowering
-                individuals with the skills and knowledge needed to thrive in
-                the ever-evolving IT landscape. Our comprehensive upskilling
-                programs are designed to equip professionals with the latest
-                industry insights, ensuring they remain at the forefront of
-                technological advancements.
-              </Text>
-              <Text
-                mt={6}
-                opacity={0.5}
-                fontSize={['lg', 'lg', 'xl']}
-                // letterSpacing={'wide'}
-                wordSpacing={'normal'}
-                fontFamily={'Recursive'}
-              >
-                In addition to our upskilling initiatives, Data Skills Hub
-                offers cutting-edge staffing solutions, connecting skilled
-                individuals with opportunities at top-tier companies. We take
-                pride in fostering career growth and facilitating strategic
-                talent placement. Join us on a transformative journey, where IT
-                excellence meets unparalleled staffing solutions.
-              </Text>
-            </VStack>
-          </Stack>
-        </Box>
-        <Box
-          maxW={['620px', '100vw']}
-          minH={'90vh'}
-          mx={'auto'}
-          bg={'yellow.50'}
-          mt={[10, 10, 2, 2, 20]}
-          py={['10', '10', '10', '10', '10']}
-        >
-          <Grid
-            templateColumns={['1fr', '1fr', '1fr', '1fr']}
-            px={['8', '8', '8', '20']}
-            gap={['10', '10', '10', '20']}
-          >
-            <Box px={2}>
-              <Heading
-                // mt={'10'}
-                textTransform={'uppercase'}
-                fontWeight={400}
-                fontFamily={'body'}
-                fontSize={['3xl', '5xl']}
-                color={'blackAlpha.800'}
-                children={'Explore Our Services'}
-              />
-              <Text color={'black'} fontSize={'xl'} opacity={'0.5'} my={'5'}>
-                Our company offers a comprehensive suite of services to meet all
-                your IT needs. We provide top-notch staffing solutions,
-                cutting-edge online courses, and expert web and mobile
-                development. Additionally, we specialize in data science and
-                quality assurance (QA) services to ensure your projects excel.
-                Whether you're looking to enhance your team's capabilities or
-                advance your own skills, we've got you covered.
-              </Text>
-            </Box>
-            <Box
-              display={'grid'}
-              gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
-              gridGap={['10', '10', '10', '20']}
-              justifyContent={'center'}
-              alignItems={'center'}
-              justifyItems={'center'}
-              alignContent={'center'}
-            >
-              <CardForCourseCatagories
-                paragraphText={'Online Courses'}
-                IconName={FcReading}
-                Title={'Online Courses'}
-                linkOfCatagory={'/courses'}
-                bgImg={img01}
-              />
-              <CardForCourseCatagories
-                paragraphText={'Staffing'}
-                IconName={FcAssistant}
-                Title={'Staffing'}
-                linkOfCatagory={'/courses'}
-                bgImg={img02}
-              />
-              <CardForCourseCatagories
-                IconName={FcMultipleDevices}
-                Title={'Web/App Development'}
-                linkOfCatagory={'/courses'}
-                bgImg={img03}
-                paragraphText={'Web/App Development'}
-              />
-              <CardForCourseCatagories
-                IconName={FcPositiveDynamic}
-                Title={'Data Science'}
-                linkOfCatagory={'/courses'}
-                bgImg={img04}
-                paragraphText={'Data Science'}
-              />
-              <CardForCourseCatagories
-                IconName={FcEditImage}
-                Title={'UI/UX Design'}
-                linkOfCatagory={'/courses'}
-                bgImg={img05}
-                paragraphText={'UI/UX Design'}
-              />
-              <CardForCourseCatagories
-                IconName={FcFaq}
-                Title={'QA'}
-                linkOfCatagory={'/courses'}
-                bgImg={img06}
-                paragraphText={'QA'}
-              />
-            </Box>
-          </Grid>
-        </Box>
-        <Box padding={'8'} bg={'blackAlpha.800'}>
-          <Heading
-            textAlign={'center'}
-            fontFamily={'body'}
-            color={'yellow.500'}
-          >
-            Our Placement Partners
-          </Heading>
-          <HStack
-            className="brandsBanner"
-            justifyContent={'space-evenly'}
-            mt={'4'}
-          >
-            <CgGoogle />
-            <CgYoutube />
-            <SiCoursera />
-            <SiUdemy />
-            <DiAws />
-          </HStack>
-        </Box>
-        <Box
-          maxW={['620px', '100vw']}
-          minH={'90vh'}
-          mx={'auto'}
-          bg={'yellow.50'}
-          py={['10', '10', '10', '10', '24']}
-        >
-          <Grid
-            templateColumns={['1fr', '1fr', '1fr', '1fr']}
-            px={['8', '8', '8', '20']}
-            gap={['10', '10', '10', '10']}
-          >
-            <Box px={2}>
-              <Heading
-                textTransform={'uppercase'}
-                my={'10'}
-                fontWeight={400}
-                fontFamily={'body'}
-                fontSize={['3xl', '3xl', '3xl', '5xl']}
-                color={'blackAlpha.800'}
-                children={'Explore Our Courses'}
-              />
-              <Text color={'black'} fontSize={'xl'} opacity={'0.5'} my={'5'}>
-                Welcome to Data Skills Hub! Our comprehensive course, designed
-                to equip you with cutting-edge skills for
-                real-world applications.
-              </Text>
-              <Text color={'black'} fontSize={'xl'} opacity={'0.5'} my={'5'}>
-                Unlock career opportunities with our professional end-to-end
-                service, dedicated to helping you secure your dream job through
-                tailored support and expert guidance.
-              </Text>
-            </Box>
-            <Box
-              display={'grid'}
-              gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
-              gridGap={['10', '10', '10', '20']}
-              justifyContent={'center'}
-              alignItems={'center'}
-              justifyItems={'center'}
-              alignContent={'center'}
-            >
-              <CardForCourseCatagories
-                IconName={FcBullish}
-                Title={'Business/Data Analytics'}
-                bgImg={img001}
-                linkOfCatagory={'/courses'}
-                paragraphText={'Business Analytics'}
-              />
-              <CardForCourseCatagories
-                IconName={FcParallelTasks}
-                Title={'Product Management with Gen AI'}
-                bgImg={img002}
-                linkOfCatagory={'/courses'}
-                paragraphText={'Product Management'}
-              />
-              <CardForCourseCatagories
-                IconName={FcMultipleDevices}
-                Title={'Full Stack Web development'}
-                bgImg={img003}
-                linkOfCatagory={'/courses'}
-                paragraphText={'Full Stack Web Development'}
-              />
-              <CardForCourseCatagories
-                IconName={FcPositiveDynamic}
-                Title={'Data Science and GenAI'}
-                linkOfCatagory={'/courses'}
-                bgImg={img004}
-                paragraphText={'Data Science'}
-              />
-              <CardForCourseCatagories
-                IconName={FcCollaboration}
-                Title={'Digital Marketing with AI'}
-                linkOfCatagory={'/courses'}
-                bgImg={img005}
-                paragraphText={'Digital Marketing'}
-              />
-              <CardForCourseCatagories
-                paragraphText={'UI/UX Design'}
-                IconName={FcEditImage}
-                Title={'UI / UX Design'}
-                linkOfCatagory={'/courses'}
-                bgImg={img006}
-              />
-            </Box>
-          </Grid>
-        </Box>
+        {/* section 4 */}
+        <HomeSection4 />
+        {/* section 5 */}
+        <HomeSection5 />
         <Stack
           bg={'blackAlpha.800'}
           spacing={['10', '10', '10', '20']}
@@ -617,60 +340,7 @@ const Home = () => {
           </Stack>
         </Stack>
         <HowWorksCard />
-        <Box maxW={'container.xl'} w={'100%'} mt={'20'} mx={'auto'} pb={'20'}>
-          <HStack
-            justifyContent={['center', 'space-between']}
-            alignItems={'center'}
-            gap={'3'}
-            mb={'20'}
-          >
-            <Heading
-              children={'Our Popular Courses'}
-              textAlign={['center', 'center', 'center', 'left']}
-              fontWeight={'500'}
-              fontSize={['3xl', '3xl', '3xl', '5xl']}
-            />
-
-            <Link to={'/courses'}>
-              <Button colorScheme={'yellow'} variant={'solid'}>
-                View All
-              </Button>
-            </Link>
-          </HStack>
-          <Stack
-            direction={['column', 'column', 'row', 'row']}
-            flexWrap={'wrap'}
-            justifyContent={[
-              'flex-start',
-              'flex-start',
-              'space-evenly',
-              'space-evenly',
-            ]}
-            alignItems={['center', 'center', 'flex-start', 'flex-start']}
-          >
-            <Grid
-              templateColumns={[
-                'repeat(1, 1fr)',
-                'repeat(2, 1fr)',
-                'repeat(3, 1fr)',
-              ]}
-              gap="6"
-            >
-              {courses.map(course => (
-                <Course
-                  key={course._id}
-                  id={course._id}
-                  title={course.title}
-                  imagesrc={`${url}/public${course.photo}`}
-                  creator={course.creator}
-                  discription={course.briefDescription}
-                  lecture={course.lessonsCount}
-                  views={course.duration}
-                />
-              ))}
-            </Grid>
-          </Stack>
-        </Box>
+        <PopularCourses />
         <Heading
           textAlign={'center'}
           fontWeight={'500'}
@@ -765,7 +435,6 @@ const Home = () => {
             </Grid>
           ))}
         </Carousel>
-
         <BlogsCardData />
       </section>
     </>
@@ -841,7 +510,7 @@ export const BlogsCardData = () => {
 
 const MotionBox = motion(Box);
 
-const CardForCourseCatagories = ({
+export const CardForCourseCatagories = ({
   bgImg,
   IconName,
   Title,

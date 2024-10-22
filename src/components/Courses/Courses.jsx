@@ -12,11 +12,11 @@ import {
   Stack,
   Text,
   VStack,
+  Skeleton,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import img from '../../assets/images/data.png';
 import { Link } from 'react-router-dom';
-import { BsCollectionPlay, BsCollectionPlayFill } from 'react-icons/bs';
+import { BsCollectionPlay } from 'react-icons/bs';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { url } from '../../url';
 import axios from 'axios';
@@ -26,9 +26,8 @@ export const Course = ({
   title,
   imagesrc,
   id,
-  addToPlaylist,
   creator,
-  discription,
+  description,
   lecture,
 }) => {
   return (
@@ -63,7 +62,7 @@ export const Course = ({
               {title}
             </Heading>
             <Text noOfLines={2} maxW="250px">
-              {discription}
+              {description}
             </Text>
             <HStack>
               <Text fontWeight="bold" textTransform="uppercase">
@@ -133,10 +132,12 @@ const Courses = () => {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
+        setLoading(true); // Set loading to true before fetching
         const response = await axios.get(
           `${url}/api/v1/courses/get-all-courses`
         );
@@ -144,14 +145,17 @@ const Courses = () => {
         console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
     fetchCourses();
   }, []);
+
   const categories = [
-    'Data Analystics',
-    'Buissiness Analystics',
+    'Data Analytics',
+    'Business Analytics',
     'Generative AI',
     'Web Development',
     'Data Science',
@@ -159,7 +163,7 @@ const Courses = () => {
     'Artificial Intelligence',
     'Cloud Computing',
   ];
-  const playlistHandler = () => {};
+
   return (
     <Box maxW={'container.xl'} w={'100%'} mt={'20'} mx={'auto'} pb={'20'}>
       <Heading children="All Courses" m={'8'} />
@@ -200,18 +204,28 @@ const Courses = () => {
           ]}
           gap="6"
         >
-          {courses.map(course => (
-            <Course
-              key={course._id}
-              id={course._id}
-              title={course.title}
-              imagesrc={`${url}/public${course.photo}`}
-              creator={course.creator}
-              discription={course.briefDescription}
-              lecture={course.lessonsCount}
-              views={course.duration}
-            />
-          ))}
+          {loading
+            ? // Render skeleton loaders while loading
+              Array.from({ length: 6 }).map((_, index) => (
+                <Box key={index}>
+                  <Skeleton height="200px" />
+                  <Skeleton height="20px" mt="4" />
+                  <Skeleton height="20px" mt="4" />
+                </Box>
+              ))
+            : // Render courses if not loading
+              courses.map(course => (
+                <Course
+                  key={course._id}
+                  id={course._id}
+                  title={course.title}
+                  imagesrc={`${url}/public${course.photo}`}
+                  creator={course.creator}
+                  description={course.briefDescription}
+                  lecture={course.lessonsCount}
+                  views={course.duration}
+                />
+              ))}
         </Grid>
       </Stack>
     </Box>
