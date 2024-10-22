@@ -149,7 +149,6 @@ const AboutService = () => {
         </UnorderedList>
       </Stack>
 
-      {/* Booking Form Section */}
       <HStack spacing={10} mt={10}>
         <Box flex={1} display={{ base: 'none', md: 'block' }}>
           <Image
