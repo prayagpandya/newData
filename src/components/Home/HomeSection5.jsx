@@ -23,10 +23,12 @@ import img004 from '../../assets/images/004.jpg';
 import img005 from '../../assets/images/005.jpg';
 import img006 from '../../assets/images/006.jpg';
 import { CardForCourseCatagories } from './Home';
+import axios from 'axios';
+import { url } from '../../url';
 
 const HomeSection5 = () => {
   const [loading, setLoading] = useState(true);
-
+  const [courses, setCourses] = useState([]);
   // Simulate data fetching
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,7 +36,24 @@ const HomeSection5 = () => {
     }, 2000); // Mocking 2 seconds loading time
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setLoading(true); // Set loading to true before fetching
+        const response = await axios.get(
+          `${url}/api/v1/courses/get-all-courses`
+        );
+        setCourses(response.data.courses);
+        console.log('Response:', response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
 
+    fetchCourses();
+  }, []);
   return (
     <Box
       maxW={['620px', '100vw']}
@@ -104,34 +123,34 @@ const HomeSection5 = () => {
                 IconName={FcBullish}
                 Title={'Business/Data Analytics'}
                 bgImg={img001}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[5]._id}`}
                 paragraphText={'Business Analytics'}
               />
               <CardForCourseCatagories
                 IconName={FcParallelTasks}
                 Title={'Product Management with Gen AI'}
                 bgImg={img002}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[6]._id}`}
                 paragraphText={'Product Management'}
               />
               <CardForCourseCatagories
                 IconName={FcMultipleDevices}
                 Title={'Full Stack Web development'}
                 bgImg={img003}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[4]._id}`}
                 paragraphText={'Full Stack Web Development'}
               />
               <CardForCourseCatagories
                 IconName={FcPositiveDynamic}
                 Title={'Data Science and GenAI'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[0]._id}`}
                 bgImg={img004}
                 paragraphText={'Data Science'}
               />
               <CardForCourseCatagories
                 IconName={FcCollaboration}
                 Title={'Digital Marketing with AI'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[3]._id}`}
                 bgImg={img005}
                 paragraphText={'Digital Marketing'}
               />
@@ -139,7 +158,7 @@ const HomeSection5 = () => {
                 paragraphText={'UI/UX Design'}
                 IconName={FcEditImage}
                 Title={'UI / UX Design'}
-                linkOfCatagory={'/courses'}
+                linkOfCatagory={`/course/${courses[2]._id}`}
                 bgImg={img006}
               />
             </>
