@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import {
   Box,
   Button,
@@ -13,39 +12,32 @@ import {
   FormControl,
   FormLabel,
   Input,
-  useColorModeValue,
   UnorderedList,
   ListItem,
   Select,
   useToast,
   Image,
 } from '@chakra-ui/react';
-import { url } from '../../url';
 import BookDemo from '../../assets/images/bookdemo.png';
+import { serviceData } from './Servicedata';
+import { url } from '../../url';
+import axios from 'axios';
 
 const AboutService = () => {
-  const { id } = useParams();
-  const [service, setService] = useState(null);
+  const { id } = useParams(); // Get ID from URL parameters
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('+1'); // Default country code
   const toast = useToast();
 
-  useEffect(() => {
-    // Fetch the service data
-    axios
-      .get(`${url}/api/v1/services/${id}`)
-      .then(response => {
-        setService(response.data);
-        console.log('service', response.data.photo);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the service data!', error);
-      });
-  }, [id]);
+  // Convert the ID from URL to a number
+  const serviceId = parseInt(id, 10);
 
-  const handleDemoSubmit = () => {
+  // Get the static data based on the numeric ID
+  const service = serviceData[serviceId];
+
+  const handleDemoSubmit = async () => {
     const formData = {
       name: name,
       email: email,
@@ -53,26 +45,41 @@ const AboutService = () => {
       serviceName: service.name, // Add service name to the form data
     };
 
-    axios
-      .post(`${url}/api/v1/book-service/submit`, formData)
-      .then(response => {
-        toast({
-          title: 'Demo booking successful',
-          description:
-            'We have received your request for a demo. We will contact you shortly.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-        console.log('Demo booking successful:', response.data);
-      })
-      .catch(error => {
-        console.error('Error booking demo:', error);
+    try {
+      const response = await axios.post(
+        `${url}/api/v1/book-service/submit`,
+        formData
+      );
+
+      console.log('Demo booking submitted:', response);
+
+      toast({
+        title: 'Demo booking successful',
+        description:
+          'We have received your request for a demo. We will contact you shortly.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
       });
+
+      // Optionally reset form fields after successful submission
+      // resetForm(); // Uncomment if you have a reset function
+    } catch (error) {
+      console.error('Error submitting demo booking:', error);
+
+      toast({
+        title: 'Error submitting booking',
+        description:
+          'There was an issue submitting your request. Please try again.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   if (!service) {
-    return <Text>Loading...</Text>;
+    return <Text>Service not found!</Text>;
   }
 
   return (
@@ -86,7 +93,7 @@ const AboutService = () => {
       <Box
         position="relative"
         height={['300px', '400px', '500px']}
-        backgroundImage={`url(${service.photo.slice(1)})`}
+        backgroundImage={`url(${service.photo})`} // Use the static photo from service data
         backgroundSize="cover"
         backgroundPosition="center"
         borderRadius="md"
@@ -94,8 +101,14 @@ const AboutService = () => {
       >
         <VStack
           position="absolute"
-          bottom={'50%'}
-          left={'25rem'}
+          // bottom={'50%'}
+          w={'full'}
+          h={'full'}
+          bg={'rgba(0,0,0,0.6)'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          backdropFilter={'blur(1px)'}
+          // left={'25rem'}
           color="white"
           textShadow="0px 0px 10px rgba(0, 0, 0, 0.7)"
           spacing={1}
@@ -216,8 +229,6 @@ const AboutService = () => {
             Submit
           </Button>
         </Box>
-
-        {/* Image Section */}
       </HStack>
     </Container>
   );

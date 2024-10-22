@@ -17,6 +17,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import img from '../../assets/images/contact.png';
+import { url } from '../../url';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -35,16 +36,13 @@ const Contact = () => {
     setError('');
 
     try {
-      const response = await axios.post(
-        'http://localhost:3001/api/v1/contact/submit',
-        {
-          name,
-          email,
-          phoneNumber,
-          countryCode,
-          message,
-        }
-      );
+      const response = await axios.post(`${url}/api/v1/contact/submit`, {
+        name,
+        email,
+        phoneNumber,
+        countryCode,
+        message,
+      });
 
       if (response.status === 201) {
         toast({

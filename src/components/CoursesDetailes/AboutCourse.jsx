@@ -27,12 +27,11 @@ import {
   ListItem,
   Select,
   useToast,
+  Spinner, // Import Spinner here
 } from '@chakra-ui/react';
 import { BsCollectionPlay } from 'react-icons/bs';
 import { AiOutlineFieldTime, AiOutlineUserAdd } from 'react-icons/ai';
 import { url } from '../../url';
-
-import { useLocation } from 'react-router-dom';
 import LearnCard from '../Cards/LearnCard';
 import HowWorksCard from '../Cards/HowWorksCard';
 
@@ -47,7 +46,6 @@ const AboutCourse = () => {
   const bg = useColorModeValue('gray.100', 'gray.700');
   const color = useColorModeValue('gray.800', 'white');
   const toast = useToast();
-  const history = useLocation(); // Use useHistory for navigation
 
   useEffect(() => {
     // Fetch the course data
@@ -99,7 +97,17 @@ const AboutCourse = () => {
   };
 
   if (!course) {
-    return <Text>Loading...</Text>;
+    // Use Spinner while loading
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minH="90vh"
+      >
+        <Spinner size="xl" />
+      </Box>
+    );
   }
 
   return (
@@ -243,11 +251,7 @@ const AboutCourse = () => {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Course Name</FormLabel>
-              <Input
-                // placeholder="Enter your name"
-                value={course.title}
-                // onChange={e => setName(e.target.value)}
-              />
+              <Input value={course.title} />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Name</FormLabel>
@@ -279,7 +283,6 @@ const AboutCourse = () => {
                   <option value="+1">+1 </option>
                   <option value="+44">+44 </option>
                   <option value="+91">+91 </option>
-                  {/* Add more options as needed */}
                 </Select>
                 <Input
                   type="tel"
@@ -292,7 +295,7 @@ const AboutCourse = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleDemoSubmit}>
+            <Button onClick={handleDemoSubmit} colorScheme="blue" mr={3}>
               Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
