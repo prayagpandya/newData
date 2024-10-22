@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
-  Container,
   Flex,
   Grid,
   GridItem,
@@ -17,36 +17,13 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './home.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { CgGoogle, CgYoutube } from 'react-icons/cg';
-import { SiCoursera, SiUdemy } from 'react-icons/si';
+
 import bgVid from '../../assets/videos/bg.mp4';
-import { DiAws } from 'react-icons/di';
-import {
-  FcAssistant,
-  FcBullish,
-  FcCheckmark,
-  FcCollaboration,
-  FcEditImage,
-  FcFaq,
-  FcMultipleDevices,
-  FcParallelTasks,
-  FcPieChart,
-  FcPositiveDynamic,
-  FcReading,
-} from 'react-icons/fc';
-import { BiDesktop } from 'react-icons/bi';
-import {
-  IoIosPeople,
-  IoMdDesktop,
-  IoMdList,
-  IoMdStar,
-  IoMdStarOutline,
-} from 'react-icons/io';
+
+import { IoIosPeople, IoMdDesktop } from 'react-icons/io';
 import About from '../../assets/images/About.jpg';
 import introvideo from '../../assets/videos/intro.mp4';
 
-import img from '../../assets/images/data.png';
-import Blogs from './Blogs';
 import blogData from '../../assets/docs/Blogs.json';
 import BlogsCard from './Blogs';
 import { Carousel } from 'react-responsive-carousel';
@@ -144,8 +121,8 @@ const Home = () => {
   if (window.innerWidth < 1024) {
     itemsPerRow = 2; // Tablet
   }
-  if (window.innerWidth < 768 || window.innerWidth == 425) {
-    itemsPerRow = 1; // Mobile
+  if (window.innerWidth < 768 || window.innerWidth === 425) {
+    itemsPerRow = 1;
   }
 
   for (let i = 0; i < testimonials.length; i += itemsPerRow) {

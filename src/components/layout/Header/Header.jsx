@@ -15,26 +15,16 @@ import {
   DrawerHeader,
   DrawerOverlay,
   HStack,
-  IconButton,
   Image,
   ListItem,
   Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   UnorderedList,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import img from '../../../assets/images/1.png';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  RiCloseLine,
-  RiDashboardFill,
-  RiLogoutBoxLine,
-  RiMenu2Fill,
-} from 'react-icons/ri';
-import { FaUser } from 'react-icons/fa';
+import { RiCloseLine, RiMenu2Fill } from 'react-icons/ri';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { url } from '../../../url';
 import axios from 'axios';
@@ -136,7 +126,7 @@ const CustomHoverMenuMobile = ({ title, items, onClose, onOpenChange }) => {
               }}
             >
               <Box as="span" flex="1" textAlign="left">
-                Services
+                {title}
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -209,6 +199,7 @@ const Header = () => {
   if (sessionStorage.getItem('authToken')) {
     isAuthenticated = true;
   }
+
   useEffect(() => {
     const handleScroll = () => {
       setHover(window.scrollY > 0);
@@ -223,31 +214,28 @@ const Header = () => {
     window.location.replace('/');
   };
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await axios.get(`${url}/api/v1/services/`);
-        setServices(response.data); // Set fetched services to state
-        console.log('Services:', response.data);
-      } catch (error) {
-        console.error('Error fetching services:', error); // Log any error
-      }
-    };
-
-    fetchServices(); // Call the fetch function
-  }, []);
-
   // Determine if user is authenticated
   useEffect(() => {
     const token = sessionStorage.getItem('authToken');
     setIsAuthenticated(!!token);
+  }, []);
+  useEffect(() => {
+    const initialServices = [
+      { name: 'Online Courses', id: 0 },
+      { name: 'Staffing', id: 1 },
+      { name: 'Web Development', id: 2 },
+      { name: 'Data Science', id: 3 },
+      { name: 'UI/UX Design', id: 4 },
+      { name: 'QA', id: 5 },
+    ];
+    setServices(initialServices);
   }, []);
 
   const servicesMenu = {
     title: 'Services',
     items: services.map(service => ({
       name: service.name,
-      url: `/services/${service._id}`,
+      url: `/services/${service.id}`,
     })),
   };
 
@@ -265,11 +253,9 @@ const Header = () => {
         h="80px"
         bgColor={hover ? 'rgb(51,51,51)' : 'transparent'}
         borderBottom={hover ? '2px solid rgba(250, 240, 137, 0.545)' : 'none'}
-        _dark={
-          hover
-            ? { backgroundColor: 'rgb(5,6,9)' }
-            : { backgroundColor: 'transparent' }
-        }
+        _dark={{
+          backgroundColor: hover ? 'rgb(5,6,9)' : 'transparent',
+        }}
       >
         <Image
           src={img}
@@ -287,12 +273,12 @@ const Header = () => {
             <ButtonsLink url="/courses" title="Courses" />
           </Box>
 
-          {/* <Box onClick={onClose}>
+          <Box onClick={onClose}>
             <CustomHoverMenu
               title={servicesMenu.title}
               items={servicesMenu.items}
             />
-          </Box> */}
+          </Box>
           <Box onClick={onClose}>
             <ButtonsLink url="/aboutus" title="About Us" />
           </Box>
@@ -301,31 +287,6 @@ const Header = () => {
           </Box>
         </HStack>
 
-        {/* <HStack pos="absolute" right={10}>
-          {isAuthenticated ? (
-            <>
-              <Link to={`/profile/${sessionStorage.getItem('userId')}`}>
-                <IconButton
-                  mr="12px"
-                  rounded="full"
-                  colorScheme="yellow"
-                  variant="outline"
-                >
-                  <FaUser />
-                </IconButton>
-              </Link>
-              <Link to="/logout"></Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <Button colorScheme="yellow" variant="outline" mr="20px">
-                  Login
-                </Button>
-              </Link>
-            </>
-          )}
-        </HStack> */}
         <ColorModeSwitcher />
       </HStack>
 
@@ -334,140 +295,68 @@ const Header = () => {
         w="80%"
         justifyContent="space-between"
       >
-        <Button
-          colorScheme="yellow"
-          w="12"
-          h="12"
-          rounded="full"
-          position="fixed"
-          top="2"
-          left="2"
-          onClick={onOpen}
-          zIndex={100}
-        >
+        <Image
+          src={img}
+          alt="logo"
+          w="100px"
+          objectFit="contain"
+          _dark={{ backgroundColor: 'white' }}
+        />
+        <Button onClick={onOpen}>
           <RiMenu2Fill />
         </Button>
-        <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-          <DrawerOverlay backdropFilter="blur(6px)" />
-          <DrawerContent w="sm">
-            <DrawerHeader
-              borderBottom="1px"
-              mt="-4"
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              pb="-2"
-            >
+      </HStack>
+
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>
+            <HStack justifyContent={'space-between'}>
               <Image
                 src={img}
                 alt="logo"
-                w="120px"
+                w="100px"
                 objectFit="contain"
                 _dark={{ backgroundColor: 'white' }}
               />
-              <Button
-                colorScheme="yellow"
-                w="12"
-                h="12"
-                rounded="full"
-                onClick={onClose}
-              >
+              <Button onClick={onClose}>
                 <RiCloseLine />
               </Button>
-            </DrawerHeader>
-            <DrawerBody>
-              <VStack alignItems="flex-start" spacing="4">
-                <Button bg="transparent" onClick={onClose}>
-                  <ButtonsLink url="/" title="Home" />
-                </Button>
-                <Button bg="transparent" onClick={onClose}>
-                  <ButtonsLink url="/courses" title="Courses" />
-                </Button>
-                {/* <Box w="full">
-                  <CustomHoverMenuMobile
-                    role={'group'}
-                    onClose={onClose}
-                    onOpenChange={setIsServicesOpen} // Track open state
-                    title={servicesMenu.title}
-                    items={servicesMenu.items}
-                  />
-                </Box> */}
-                <Button bg="transparent" onClick={onClose}>
-                  <ButtonsLink url="/aboutus" title="About Us" />
-                </Button>
-                <Button bg="transparent" onClick={onClose}>
-                  <ButtonsLink url="/contact" title="Contact Us" />
-                </Button>
-                {/* <HStack
-                  justifyContent="space-evenly"
-                  width="80%"
-                  pos={isServicesOpen ? 'relative' : 'absolute'} // Change position based on state
-                  bottom={isServicesOpen ? '0' : '2rem'}
-                  _groupFocus={{ pos: 'relative', bottom: '2rem' }}
-                >
-                  {isAuthenticated ? (
-                    <VStack>
-                      <HStack>
-                        <Link
-                          to={`/profile/${sessionStorage.getItem('userId')}`}
-                        >
-                          <Button
-                            variant="ghost"
-                            colorScheme="yellow"
-                            onClick={onClose}
-                          >
-                            Profile
-                          </Button>
-                        </Link>
-                        <Button
-                          onClick={logoutHandler}
-                          variant="ghost"
-                          colorScheme="red"
-                        >
-                          <RiLogoutBoxLine /> Logout
-                        </Button>
-                      </HStack>
-                      {user && user.role === 'admin' && (
-                        <Link to="/admin/dashboard">
-                          <Button
-                            colorScheme="purple"
-                            display="flex"
-                            gap={2}
-                            variant="outline"
-                          >
-                            <RiDashboardFill /> Dashboard
-                          </Button>
-                        </Link>
-                      )}
-                    </VStack>
-                  ) : (
-                    <>
-                      <Link to="/login">
-                        <Button colorScheme="yellow">Login</Button>
-                      </Link>
-                      <p>OR</p>
-                      <Link to="/signup">
-                        <Button colorScheme="yellow">Sign Up</Button>
-                      </Link>
-                    </>
-                  )}
-                </HStack> */}
-              </VStack>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
+            </HStack>
+          </DrawerHeader>
+          <DrawerBody>
+            <VStack align="stretch" spacing={4}>
+              <Box>
+                <ButtonsLink url="/" title="Home" />
+              </Box>
+              <Box>
+                <ButtonsLink url="/courses" title="Courses" />
+              </Box>
 
-        <ColorModeSwitcher
-          backgroundColor="yellow.400"
-          rounded="full"
-          w="12"
-          h="12"
-          position="fixed"
-          zIndex={100}
-          top="2"
-          right="2"
-        />
-      </HStack>
+              <Box>
+                <CustomHoverMenuMobile
+                  title={servicesMenu.title}
+                  items={servicesMenu.items}
+                  onClose={onClose}
+                  onOpenChange={newState => setIsServicesOpen(newState)}
+                />
+              </Box>
+
+              <Box>
+                <ButtonsLink url="/aboutus" title="About Us" />
+              </Box>
+              <Box>
+                <ButtonsLink url="/contact" title="Contact Us" />
+              </Box>
+              {isAuthenticated && (
+                <Button onClick={logoutHandler} variant="outline">
+                  Logout
+                </Button>
+              )}
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };
