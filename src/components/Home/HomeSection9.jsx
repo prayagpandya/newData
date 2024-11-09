@@ -30,7 +30,6 @@ const PopularCourses = () => {
         console.error('Error fetching courses:', error);
       }
     };
-
     fetchCourses();
   }, []);
 
