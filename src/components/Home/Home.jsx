@@ -47,6 +47,9 @@ import PopularCourses from './HomeSection9';
 const Home = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [itemsPerRow, setItemsPerRow] = useState(3);
+
+  // Fetch courses data on component mount
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -55,76 +58,84 @@ const Home = () => {
         );
         setCourses(response.data.courses);
         setLoading(false);
-        console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
     };
 
     fetchCourses();
+
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerRow(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerRow(2);
+      } else {
+        setItemsPerRow(3);
+      }
+    };
+
+    // Initial check and event listener for window resize
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Testimonials data
   const testimonials = [
     {
       id: 1,
       quote:
-        "Transitioning from marketing, Data Skills Hub's comprehensive program equipped me for Data Science success. Their personalized approach and industry insights were invaluable in navigating this career shift",
+        "Transitioning from marketing, Data Skills Hub's program equipped me for Data Science success.",
       name: 'Dinesh',
       image: img1,
     },
     {
       id: 2,
       quote:
-        'Coming from a QA background, transitioning to Data Science seemed daunting until I found Data Skills Hub. Their structured program and industry-focused curriculum empowered me to pursue my passion.',
+        'Coming from a QA background, transitioning to Data Science was made easier with Data Skills Hub.',
       name: 'Priyanka',
       image: img2,
     },
     {
       id: 3,
       quote:
-        " Data Skills Hub propelled my transition from sales to Data Science, providing expert guidance and practical training that secured my dream role. I'm grateful for their transformative support and dedication.",
+        'Data Skills Hub propelled my transition from sales to Data Science, providing expert guidance.',
       name: 'Neha',
       image: img3,
     },
     {
       id: 4,
       quote:
-        'As a backend developer, Data Skills Hub provided me with the tools and knowledge to transition into Data Science. Their practical approach and supportive environment made the journey smooth and rewarding.',
+        'As a backend developer, Data Skills Hub helped me transition to Data Science.',
       name: 'Nidhi',
       image: img4,
     },
     {
-      id: 4,
+      id: 5,
       quote:
-        'Data Skills Hub helped me transition from networking to Data Science seamlessly. Their program provided me with the skills and confidence to pursue new opportunities in this rapidly evolving field of study.',
+        'Seamless transition from networking to Data Science with Data Skills Hub.',
       name: 'Nisha',
       image: img5,
     },
     {
       id: 6,
       quote:
-        "Data Skills Hub facilitated my transition from backend development to Data Science with their comprehensive training and supportive environment. I'm grateful for their guidance in navigating this career transition.",
+        'Backend development to Data Science was made possible by Data Skills Hub.',
       name: 'Praneeta',
       image: img6,
     },
     {
       id: 7,
       quote:
-        'Data Skills Hub enabled my transition to Data Science as a fresher, equipping me with essential skills and industry knowledge. Their program laid the foundation for my successful career journey.',
+        'Data Skills Hub enabled my transition to Data Science as a fresher, providing the skills for my career journey.',
       name: 'Sakshatha',
       image: img7,
     },
   ];
+
   const groupedTestimonials = [];
-  let itemsPerRow = 3;
-
-  if (window.innerWidth < 1024) {
-    itemsPerRow = 2; // Tablet
-  }
-  if (window.innerWidth < 768 || window.innerWidth === 425) {
-    itemsPerRow = 1;
-  }
-
   for (let i = 0; i < testimonials.length; i += itemsPerRow) {
     groupedTestimonials.push(testimonials.slice(i, i + itemsPerRow));
   }

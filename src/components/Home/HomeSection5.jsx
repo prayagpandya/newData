@@ -4,7 +4,6 @@ import {
   Grid,
   Heading,
   Text,
-  Skeleton,
   SkeletonText,
   SkeletonCircle,
 } from '@chakra-ui/react';
@@ -29,13 +28,8 @@ import { url } from '../../url';
 const HomeSection5 = () => {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
-  // Simulate data fetching
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // Mocking 2 seconds loading time
-    return () => clearTimeout(timer);
-  }, []);
+
+  // Fetch courses from the API
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -44,7 +38,6 @@ const HomeSection5 = () => {
           `${url}/api/v1/courses/get-all-courses`
         );
         setCourses(response.data.courses);
-        console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
       } finally {
@@ -54,6 +47,7 @@ const HomeSection5 = () => {
 
     fetchCourses();
   }, []);
+
   return (
     <Box
       maxW={['620px', '100vw']}
@@ -88,13 +82,13 @@ const HomeSection5 = () => {
               </Heading>
               <Text color={'black'} fontSize={'xl'} opacity={'0.5'} my={'5'}>
                 Welcome to Data Skills Hub! Our comprehensive course, designed
-                to equip you with cutting-edge skills for
-                real-world applications.
+                to equip you with cutting-edge skills for real-world
+                applications.
               </Text>
               <Text color={'black'} fontSize={'xl'} opacity={'0.5'} my={'5'}>
                 Unlock career opportunities with our professional end-to-end
                 service, dedicated to helping you secure your dream job through
-                tailored support and expert guidance.
+                tailored support and expert guidance.
               </Text>
             </>
           )}
@@ -119,48 +113,52 @@ const HomeSection5 = () => {
               ))
           ) : (
             <>
-              <CardForCourseCatagories
-                IconName={FcBullish}
-                Title={'Business/Data Analytics'}
-                bgImg={img001}
-                linkOfCatagory={`/course/${courses[5]._id}`}
-                paragraphText={'Business Analytics'}
-              />
-              <CardForCourseCatagories
-                IconName={FcParallelTasks}
-                Title={'Product Management with Gen AI'}
-                bgImg={img002}
-                linkOfCatagory={`/course/${courses[6]._id}`}
-                paragraphText={'Product Management'}
-              />
-              <CardForCourseCatagories
-                IconName={FcMultipleDevices}
-                Title={'Full Stack Web development'}
-                bgImg={img003}
-                linkOfCatagory={`/course/${courses[4]._id}`}
-                paragraphText={'Full Stack Web Development'}
-              />
-              <CardForCourseCatagories
-                IconName={FcPositiveDynamic}
-                Title={'Data Science and GenAI'}
-                linkOfCatagory={`/course/${courses[0]._id}`}
-                bgImg={img004}
-                paragraphText={'Data Science'}
-              />
-              <CardForCourseCatagories
-                IconName={FcCollaboration}
-                Title={'Digital Marketing with AI'}
-                linkOfCatagory={`/course/${courses[3]._id}`}
-                bgImg={img005}
-                paragraphText={'Digital Marketing'}
-              />
-              <CardForCourseCatagories
-                paragraphText={'UI/UX Design'}
-                IconName={FcEditImage}
-                Title={'UI / UX Design'}
-                linkOfCatagory={`/course/${courses[2]._id}`}
-                bgImg={img006}
-              />
+              {courses.length > 0 && (
+                <>
+                  <CardForCourseCatagories
+                    IconName={FcBullish}
+                    Title={'Business/Data Analytics'}
+                    bgImg={img001}
+                    linkOfCatagory={`/course/${courses[5]._id}`}
+                    paragraphText={'Business Analytics'}
+                  />
+                  <CardForCourseCatagories
+                    IconName={FcParallelTasks}
+                    Title={'Product Management with Gen AI'}
+                    bgImg={img002}
+                    linkOfCatagory={`/course/${courses[6]._id}`}
+                    paragraphText={'Product Management'}
+                  />
+                  <CardForCourseCatagories
+                    IconName={FcMultipleDevices}
+                    Title={'Full Stack Web development'}
+                    bgImg={img003}
+                    linkOfCatagory={`/course/${courses[4]._id}`}
+                    paragraphText={'Full Stack Web Development'}
+                  />
+                  <CardForCourseCatagories
+                    IconName={FcPositiveDynamic}
+                    Title={'Data Science and GenAI'}
+                    linkOfCatagory={`/course/${courses[0]._id}`}
+                    bgImg={img004}
+                    paragraphText={'Data Science'}
+                  />
+                  <CardForCourseCatagories
+                    IconName={FcCollaboration}
+                    Title={'Digital Marketing with AI'}
+                    linkOfCatagory={`/course/${courses[3]._id}`}
+                    bgImg={img005}
+                    paragraphText={'Digital Marketing'}
+                  />
+                  <CardForCourseCatagories
+                    paragraphText={'UI/UX Design'}
+                    IconName={FcEditImage}
+                    Title={'UI / UX Design'}
+                    linkOfCatagory={`/course/${courses[2]._id}`}
+                    bgImg={img006}
+                  />
+                </>
+              )}
             </>
           )}
         </Box>

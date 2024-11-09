@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import {
   Box,
@@ -31,12 +31,12 @@ import {
 } from '@chakra-ui/react';
 import { BsCollectionPlay } from 'react-icons/bs';
 import { AiOutlineFieldTime, AiOutlineUserAdd } from 'react-icons/ai';
-import { url } from '../../url';
-import LearnCard from '../Cards/LearnCard';
-import HowWorksCard from '../Cards/HowWorksCard';
+import { url } from '../../url'; // Adjust the path based on your project structure
+import LearnCard from '../Cards/LearnCard'; // Adjust the import based on your project structure
+import HowWorksCard from '../Cards/HowWorksCard'; // Adjust the import based on your project structure
 
 const AboutCourse = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Retrieve the course ID from the URL parameters
   const [course, setCourse] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState('');
@@ -47,8 +47,8 @@ const AboutCourse = () => {
   const color = useColorModeValue('gray.800', 'white');
   const toast = useToast();
 
+  // Fetch course details when the component mounts or when the course ID changes
   useEffect(() => {
-    // Fetch the course data
     axios
       .get(`${url}/api/v1/courses/get-course/${id}`)
       .then(response => {
@@ -185,6 +185,7 @@ const AboutCourse = () => {
             <Button colorScheme={'yellow'} w={['full']} onClick={onOpen}>
               Book Free Demo
             </Button>
+            {/* Uncomment below if you want to add Enroll Now button */}
             {/* <Button
               variant={'outline'}
               colorScheme={'yellow'}
@@ -251,7 +252,7 @@ const AboutCourse = () => {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Course Name</FormLabel>
-              <Input value={course.title} />
+              <Input value={course.title} readOnly />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Name</FormLabel>
@@ -281,8 +282,8 @@ const AboutCourse = () => {
                   width="25%"
                 >
                   <option value="+1">+1 </option>
-                  <option value="+44">+44 </option>
-                  <option value="+91">+91 </option>
+                  <option value="+91">+91</option>
+                  {/* Add more country codes if needed */}
                 </Select>
                 <Input
                   type="tel"
@@ -295,10 +296,12 @@ const AboutCourse = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={handleDemoSubmit} colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" onClick={handleDemoSubmit}>
               Submit
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button variant="ghost" onClick={onClose} ml={3}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
