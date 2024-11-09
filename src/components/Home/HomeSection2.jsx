@@ -103,7 +103,7 @@ const Section2 = () => {
                 fontFamily={'Recursive'}
               >
                 Welcome to Data Skills Hub, a leading provider of IT upskilling
-                and staffing solutions. At Titans, we specialize in empowering
+                and staffing solutions. At Data Skills Hub, we specialize in empowering
                 individuals with the skills and knowledge needed to thrive in
                 the ever-evolving IT landscape. Our comprehensive upskilling
                 programs are designed to equip professionals with the latest
