@@ -115,11 +115,9 @@ export const Course = ({
               direction={['column', 'column', 'row']}
               alignItems="center"
             >
-              <Link to={`/course/${id}`} style={{ width: '100%' }}>
-                <Button colorScheme="yellow" minW={'100%'}>
-                  More Details
-                </Button>
-              </Link>
+              <Button colorScheme="yellow" minW={'100%'}>
+                More Details
+              </Button>
             </Stack>
           </Stack>
         </Link>

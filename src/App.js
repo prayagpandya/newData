@@ -33,6 +33,8 @@ import CourseDetailsAdmin from './Admin/Dashboard/Courses/courseDetailsAdmin';
 import Payment from './payment/payment';
 import AboutService from './components/Services/ServicesCard';
 import BookServices from './Admin/Dashboard/Booked Demos/bookServices';
+import HomePage from './components/JobPortal/page/HomePage';
+import JobDetailsPage from './components/JobPortal/page/JobDetailsPage';
 function App() {
   // window.addEventListener('contextmenu', e => e.preventDefault());
   useLenis();
@@ -63,6 +65,8 @@ function App() {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/manage-courses" element={<ManageCourses />} />
+        <Route path="/jobs" element={<HomePage />} />
+        <Route path="/jobs/:id" element={<JobDetailsPage />} />
         <Route
           path="/admin/manage-courses/:courseId"
           element={<CourseDetailsAdmin />}
