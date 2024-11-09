@@ -179,6 +179,7 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
                 gap={10}
+                zIndex={1}
               >
                 <Text>Your Dream job Awaits:</Text>
                 <Text mt={4}>Let's Make It Happen</Text>
@@ -191,6 +192,7 @@ const Home = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
+                zIndex={1}
               >
                 Discover new skills outside the classroom, with guidance from
                 India's most accomplished industry mentors.
