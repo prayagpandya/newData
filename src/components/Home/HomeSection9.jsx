@@ -26,7 +26,6 @@ const PopularCourses = () => {
         );
         setCourses(response.data.courses);
         setLoading(false);
-        console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
