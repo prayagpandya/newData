@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import img01 from '../../assets/images/01.jpg';
-import img02 from '../../assets/images/02.jpg';
-import img03 from '../../assets/images/03.jpg';
-import img04 from '../../assets/images/04.jpg';
-import img05 from '../../assets/images/05.jpg';
-import img06 from '../../assets/images/06.jpg';
 import {
   Box,
   Grid,
   Heading,
-  Text,
   Skeleton,
   SkeletonText,
   Stack,
+  Text,
 } from '@chakra-ui/react';
-import { CardForCourseCatagories } from './Home';
+import React, { useEffect, useState } from 'react';
 import {
   FcAssistant,
   FcEditImage,
@@ -23,6 +16,13 @@ import {
   FcPositiveDynamic,
   FcReading,
 } from 'react-icons/fc';
+import img01 from '../../assets/images/01.jpg';
+import img02 from '../../assets/images/02.jpg';
+import img03 from '../../assets/images/03.jpg';
+import img04 from '../../assets/images/04.jpg';
+import img05 from '../../assets/images/05.jpg';
+import img06 from '../../assets/images/06.jpg';
+import { CardForCourseCatagories } from './Home';
 
 const HomeSection3 = () => {
   const [loading, setLoading] = useState(true);
@@ -134,7 +134,7 @@ const HomeSection3 = () => {
                 paragraphText={'Online Courses'}
                 IconName={FcReading}
                 Title={'Online Courses'}
-                linkOfCatagory={'/courses/0'}
+                linkOfCatagory={'/services/0'}
                 bgImg={img01}
               />
               <CardForCourseCatagories

@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
   Container,
-  Heading,
-  Stack,
-  Text,
-  VStack,
-  HStack,
   FormControl,
   FormLabel,
+  Heading,
+  HStack,
+  Image,
   Input,
-  UnorderedList,
   ListItem,
   Select,
+  Stack,
+  Text,
+  UnorderedList,
   useToast,
-  Image,
+  VStack,
 } from '@chakra-ui/react';
-import BookDemo from '../../assets/images/bookdemo.png';
-import { serviceData } from './Servicedata';
-import { url } from '../../url';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import BookDemo from '../../assets/images/bookdemo.png';
+import { url } from '../../url';
+import { serviceData } from './Servicedata';
 
 const AboutService = () => {
   const { id } = useParams(); // Get ID from URL parameters
@@ -41,7 +41,7 @@ const AboutService = () => {
     const formData = {
       name: name,
       email: email,
-      phoneNumber: `${countryCode}${phoneNumber}`, // Combine country code with phone number
+      phoneNumber: `${countryCode}${phoneNumber}`,
       serviceName: service.name, // Add service name to the form data
     };
 
@@ -77,7 +77,9 @@ const AboutService = () => {
       });
     }
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   if (!service) {
     return <Text>Service not found!</Text>;
   }

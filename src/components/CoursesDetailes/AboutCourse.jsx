@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import {
   Box,
   Button,
   Container,
-  Heading,
-  Stack,
-  Text,
-  VStack,
-  Image,
-  HStack,
-  Icon,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   FormControl,
   FormLabel,
+  Heading,
+  HStack,
+  Icon,
+  Image,
   Input,
-  useColorModeValue,
-  UnorderedList,
   ListItem,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  Spinner,
+  Stack,
+  Text,
+  UnorderedList,
+  useColorModeValue,
   useToast,
-  Spinner, // Import Spinner here
+  VStack,
 } from '@chakra-ui/react';
-import { BsCollectionPlay } from 'react-icons/bs';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineFieldTime, AiOutlineUserAdd } from 'react-icons/ai';
+import { BsCollectionPlay } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
 import { url } from '../../url'; // Adjust the path based on your project structure
-import LearnCard from '../Cards/LearnCard'; // Adjust the import based on your project structure
 import HowWorksCard from '../Cards/HowWorksCard'; // Adjust the import based on your project structure
+import LearnCard from '../Cards/LearnCard'; // Adjust the import based on your project structure
 
 const AboutCourse = () => {
   const { id } = useParams(); // Retrieve the course ID from the URL parameters
@@ -49,6 +49,7 @@ const AboutCourse = () => {
 
   // Fetch course details when the component mounts or when the course ID changes
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
       .get(`${url}/api/v1/courses/get-course/${id}`)
       .then(response => {
