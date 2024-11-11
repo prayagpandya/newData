@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { url } from '../../url';
 
 const CoursesDetailes = () => {
@@ -10,6 +10,8 @@ const CoursesDetailes = () => {
   const [lectureNumber, setLectureNumber] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const fetchCourseData = async () => {
       try {
         const response = await axios.get(
