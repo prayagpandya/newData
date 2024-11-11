@@ -1,40 +1,41 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home/Home';
-import Header from './components/layout/Header/Header';
-import Courses from './components/Courses/Courses';
-import Footer from './components/layout/Footer/Footer';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import About from './components/About/About';
+import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';
-import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import Contact from './components/Contact/Contact';
-import Request from './components/Request/Request';
-import About from './components/About/About';
-import NotFound from './components/layout/NotFound/NotFound';
-import PaymentSuccess from './components/Payment/PaymentSuccess';
-import PaymentFailed from './components/Payment/PaymentFailed';
-import CoursesDetailes from './components/CoursesDetailes/CoursesDetailes';
+import Courses from './components/Courses/Courses';
 import AboutCourse from './components/CoursesDetailes/AboutCourse';
-import Profile from './components/Profile/Profile';
+import CoursesDetailes from './components/CoursesDetailes/CoursesDetailes';
+import Home from './components/Home/Home';
+import Footer from './components/layout/Footer/Footer';
+import Header from './components/layout/Header/Header';
+import NotFound from './components/layout/NotFound/NotFound';
+import PaymentFailed from './components/Payment/PaymentFailed';
+import PaymentSuccess from './components/Payment/PaymentSuccess';
 import ChangePassword from './components/Profile/ChangePassword';
+import Profile from './components/Profile/Profile';
 import UpdateProfile from './components/Profile/UpdatePassword';
+import Request from './components/Request/Request';
 // import Users from './components/Admin/Users/Users';
-import { useEffect } from 'react';
 import Lenis from 'lenis';
-import BlogsSingle from './components/Blogs/BlogsSingle';
+import { useEffect } from 'react';
 import Blogs from './components/Blogs/Blogs';
+import BlogsSingle from './components/Blogs/BlogsSingle';
 // import Dashboard from './Admin/Dashboard/Dashboard';
-import Users from './Admin/Dashboard/Users/userstable';
-import ManageCourses from './Admin/Dashboard/Courses/courseManage';
-import CreateCourseForm from './Admin/Dashboard/Courses/courseCreate';
-import ContactList from './Admin/Dashboard/Contactus/contactUs';
 import BookDemos from './Admin/Dashboard/Booked Demos/bookDemos';
-import CourseDetailsAdmin from './Admin/Dashboard/Courses/courseDetailsAdmin';
-import Payment from './payment/payment';
-import AboutService from './components/Services/ServicesCard';
 import BookServices from './Admin/Dashboard/Booked Demos/bookServices';
+import ContactList from './Admin/Dashboard/Contactus/contactUs';
+import CreateCourseForm from './Admin/Dashboard/Courses/courseCreate';
+import CourseDetailsAdmin from './Admin/Dashboard/Courses/courseDetailsAdmin';
+import ManageCourses from './Admin/Dashboard/Courses/courseManage';
+import ManageJobs from './Admin/Dashboard/Jobs/createJob';
+import Users from './Admin/Dashboard/Users/userstable';
 import HomePage from './components/JobPortal/page/HomePage';
 import JobDetailsPage from './components/JobPortal/page/JobDetailsPage';
+import AboutService from './components/Services/ServicesCard';
+import Payment from './payment/payment';
 function App() {
   // window.addEventListener('contextmenu', e => e.preventDefault());
   useLenis();
@@ -73,6 +74,7 @@ function App() {
         />
 
         <Route path="/admin/create-course" element={<CreateCourseForm />} />
+        <Route path="/admin/create-job" element={<ManageJobs />} />
         <Route path="/admin/contacts" element={<ContactList />} />
         <Route path="/admin/bookings" element={<BookDemos />} />
         <Route path="/admin/book-services" element={<BookServices />} />

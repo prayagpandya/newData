@@ -1,9 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { url } from '../../../url';
 import DynamicTable from '../../Components/dynamicTable';
 import withAdminLayout from '../HOF';
-import axios from 'axios';
-import { url } from '../../../url';
 
 const ManageCourses = () => {
   const [courses, setCourses] = useState([]);

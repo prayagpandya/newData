@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
 import {
   Box,
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
-  Textarea,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Heading,
+  Textarea,
   useToast,
 } from '@chakra-ui/react';
-import { v4 as uuidv4 } from 'uuid';
-import withAdminLayout from '../HOF';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { url } from '../../../url';
+import withAdminLayout from '../HOF';
 
 const CreateCourseForm = () => {
   const [title, setTitle] = useState('');
