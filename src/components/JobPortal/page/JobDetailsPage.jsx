@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import HeroSection from '../HeroSection';
-import ApplyModal from '../ApplyModal'; // Adjust path as needed
+import { useColorMode } from '@chakra-ui/react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { HiArrowRight } from 'react-icons/hi';
 import {
-  LuUserCheck,
-  LuMonitor,
   LuBookMinus,
   LuDollarSign,
+  LuMonitor,
+  LuUserCheck,
 } from 'react-icons/lu';
-import { SlLocationPin } from 'react-icons/sl';
 import { PiSuitcase, PiTimerLight } from 'react-icons/pi';
-import { HiArrowRight } from 'react-icons/hi';
-import { useColorMode } from '@chakra-ui/react';
+import { SlLocationPin } from 'react-icons/sl';
+import { useParams } from 'react-router-dom';
+import { url } from '../../../url';
+import ApplyModal from '../ApplyModal'; // Adjust path as needed
+import HeroSection from '../HeroSection';
 
 const iconMap = {
   employeeType: <LuUserCheck className="text-2xl" />,
@@ -26,8 +28,38 @@ const iconMap = {
 const JobDetailsPage = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { colorMode } = useColorMode(); // Get the current color mode (light or dark)
-
+  const { colorMode } = useColorMode();
+  const [jobDetails, setJobDetails] = useState({
+    title: '',
+    description: [],
+    company: '',
+    jobinfo: {
+      employeeType: '',
+      location: '',
+      jobType: '',
+      experience: '',
+      salary: '',
+      datePosted: '',
+      vacancies: '',
+      applied: '',
+      logo: '',
+    },
+    createdBy: '',
+    responsibilities: [],
+    qualifications: [],
+  });
+  useEffect(() => {
+    fetchJobDetails();
+  }, [id]);
+  const fetchJobDetails = async () => {
+    try {
+      const response = await axios.get(`${url}/api/v1/jobs/${id}`);
+      const data = await response.data.data;
+      setJobDetails(data);
+    } catch (error) {
+      console.error('Error fetching job details:', error);
+    }
+  };
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -35,56 +67,12 @@ const JobDetailsPage = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const jobDetails = {
-    id,
-    title: 'Software Engineer',
-    company: 'Company A',
-    description: [
-      'Job description paragraph 1.',
-      'Job description paragraph 2.',
-      'Job description paragraph 1.',
-      'Job description paragraph 2.',
-      'Job description paragraph 1.',
-      'Job description paragraph 2.',
-      'Job description paragraph 1.',
-      'Job description paragraph 2.',
-    ],
-    meta: {
-      employeeType: 'Full Time',
-      location: 'Australia',
-      jobType: 'Web Designer / Developer',
-      experience: '2+ years',
-      qualifications: 'MCA',
-      salary: '$4000 - $4500',
-      datePosted: '28th Feb, 2023',
-    },
-    responsibilities: [
-      'Responsibility 1',
-      'Responsibility 2',
-      'Responsibility 1',
-      'Responsibility 2',
-      'Responsibility 1',
-      'Responsibility 2',
-      'Responsibility 1',
-      'Responsibility 2',
-      'Responsibility 1',
-      'Responsibility 2',
-    ],
-    qualifications: [
-      'Qualification 1',
-      'Qualification 2',
-      'Qualification 1',
-      'Qualification 2',
-      'Qualification 1',
-      'Qualification 2',
-      'Qualification 1',
-      'Qualification 2',
-      'Qualification 1',
-      'Qualification 2',
-    ],
+  const filteredJobInfo = {
+    ...jobDetails.jobinfo,
+    logo: undefined,
+    vacancies: undefined,
+    applied: undefined,
   };
-
   return (
     <div className="mx-auto">
       <HeroSection />
@@ -96,28 +84,37 @@ const JobDetailsPage = () => {
               Job Information
             </h2>
             <div className="space-y-4">
-              {Object.entries(jobDetails.meta).map(([key, value]) => (
-                <div
-                  key={key}
-                  className={`flex text-black text-lg items-center gap-4`}
-                >
-                  <div className="w-8">{iconMap[key] || null}</div>
-                  <div className="flex flex-col">
-                    <span className="font-semibold capitalize">
-                      {key.replace(/([A-Z])/g, ' $1')}:
-                    </span>
-                    <span
-                      className={`${
-                        colorMode === 'dark'
-                          ? 'text-yellow-500'
-                          : 'text-yellow-600'
-                      }`}
-                    >
-                      {value}
-                    </span>
+              {Object.entries(filteredJobInfo).map(([key, value]) => {
+                if (
+                  key === 'vacancies' ||
+                  key === 'applied' ||
+                  key === 'logo'
+                ) {
+                  return null;
+                }
+                return (
+                  <div
+                    key={key}
+                    className={`flex text-black text-lg items-center gap-4`}
+                  >
+                    <div className="w-8">{iconMap[key] || null}</div>
+                    <div className="flex flex-col">
+                      <span className="font-semibold capitalize">
+                        {key.replace(/([A-Z])/g, ' $1')}:
+                      </span>
+                      <span
+                        className={`${
+                          colorMode === 'dark'
+                            ? 'text-yellow-500'
+                            : 'text-yellow-600'
+                        }`}
+                      >
+                        {value}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -141,7 +138,6 @@ const JobDetailsPage = () => {
                 {paragraph}
               </p>
             ))}
-
             <h3
               className={`${
                 colorMode === 'dark' ? 'text-gray-800' : 'text-black-800'

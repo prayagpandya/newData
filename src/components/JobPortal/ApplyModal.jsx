@@ -1,81 +1,104 @@
-import React, { useState, useEffect } from "react";
-import AnimatedInputField from "./AnimatedInput"; // Ensure correct path
+import { useToast } from '@chakra-ui/react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { url } from '../../url';
+import AnimatedInputField from './AnimatedInput'; // Ensure correct path
 
 const ApplyModal = ({ job, closeModal }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    location: "",
-    coverLetter: "",
+    name: '',
+    email: '',
+    phone: '',
+    coverLetter: '',
     cv: null,
-    jobrole: "",
+    jobrole: '',
   });
-
+  const toast = useToast();
   useEffect(() => {
     if (job) {
-      setFormData((prevState) => ({
+      setFormData(prevState => ({
         ...prevState,
         jobrole: job.title,
       }));
     }
   }, [job]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setFormData(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prevState) => ({
+  const handleFileChange = e => {
+    setFormData(prevState => ({
       ...prevState,
       cv: e.target.files[0],
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData);
-    closeModal();
+    try {
+      console.log(formData);
+
+      const response = await axios.post(`${url}/api/v1/jobs/apply`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response) {
+        console.log('Application submitted successfully:', response);
+        closeModal();
+        toast({
+          title: 'Application submitted successfully',
+          description: 'Email has been sent',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+    }
   };
 
   // Input fields data
   const inputFields = [
     {
       // label: "Job Role",
-      type: "text",
-      name: "jobrole",
+      type: 'text',
+      name: 'jobrole',
       value: formData.jobrole,
       onChange: handleChange,
       readOnly: true,
     },
     {
-      label: "Name",
-      type: "text",
-      name: "name",
+      label: 'Name',
+      type: 'text',
+      name: 'name',
       value: formData.name,
       onChange: handleChange,
     },
     {
-      label: "Email",
-      type: "email",
-      name: "email",
+      label: 'Email',
+      type: 'email',
+      name: 'email',
       value: formData.email,
       onChange: handleChange,
     },
     {
-      label: "Phone",
-      type: "tel",
-      name: "phone",
+      label: 'Phone',
+      type: 'tel',
+      name: 'phone',
       value: formData.phone,
       onChange: handleChange,
     },
     {
-      label: "Cover Letter",
-      name: "coverLetter",
+      label: 'Cover Letter',
+      name: 'coverLetter',
       value: formData.coverLetter,
       onChange: handleChange,
       isTextArea: true,

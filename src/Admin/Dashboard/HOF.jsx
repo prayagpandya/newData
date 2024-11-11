@@ -10,6 +10,8 @@ const withAdminLayout = (Component, activeTabName) => {
     { name: 'Contact List', url: '/admin/contacts' },
     { name: 'Booking List', url: '/admin/bookings' },
     { name: 'Booking Services', url: '/admin/book-services' },
+    { name: 'Create Job', url: '/admin/create-job' },
+    { name: 'Job List', url: '/admin/jobs' },
   ];
 
   return props => {
