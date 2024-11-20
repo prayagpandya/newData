@@ -274,9 +274,9 @@ const Header = () => {
           <Box onClick={onClose}>
             <ButtonsLink url="/courses" title="Courses" />
           </Box>
-          {/* <Box onClick={onClose}>
+          <Box onClick={onClose}>
             <ButtonsLink url="/jobs" title="Find Jobs" />
-          </Box> */}
+          </Box>
 
           <Box onClick={onClose}>
             <CustomHoverMenu
@@ -337,9 +337,9 @@ const Header = () => {
               <Box>
                 <ButtonsLink url="/courses" title="Courses" />
               </Box>
-              {/* <Box>
+              <Box>
                 <ButtonsLink url="/jobs" title="Find Jobs" />
-              </Box> */}
+              </Box>
 
               <Box>
                 <CustomHoverMenuMobile

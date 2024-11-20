@@ -8,6 +8,7 @@ const SimpleInputField = ({
   onChange,
   readOnly = false,
   isTextArea = false,
+  hidden = false,
 }) => {
   return (
     <div className="mb-6">
@@ -27,6 +28,7 @@ const SimpleInputField = ({
         ></textarea>
       ) : (
         <input
+          hidden={hidden}
           id={name}
           type={type}
           name={name}

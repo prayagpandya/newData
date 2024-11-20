@@ -52,3 +52,8 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.loader {
+  border-left-color: transparent;
+  border-right-color: transparent;
+}

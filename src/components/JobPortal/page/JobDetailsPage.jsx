@@ -33,6 +33,7 @@ const JobDetailsPage = () => {
     title: '',
     description: [],
     company: '',
+    jobPostId: id,
     jobinfo: {
       employeeType: '',
       location: '',
@@ -169,16 +170,26 @@ const JobDetailsPage = () => {
             </h3>
             <ul className="pl-6 space-y-3 text-lg">
               {jobDetails.qualifications.map((qualification, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <HiArrowRight className="text-xl text-yellow-500" />
-                  <span
-                    className={`${
-                      colorMode === 'dark' ? 'text-gray-800' : 'text-black-500'
-                    }`}
+                <>
+                  <li key={index} className="flex items-start gap-2">
+                    <HiArrowRight className="text-xl text-yellow-500" />
+                    <span
+                      className={`${
+                        colorMode === 'dark'
+                          ? 'text-gray-800'
+                          : 'text-black-500'
+                      }`}
+                    >
+                      {qualification}
+                    </span>
+                  </li>
+                  <button
+                    onClick={handleOpenModal}
+                    className="mt-6 px-4 bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-semibold py-2 rounded-md text-lg"
                   >
-                    {qualification}
-                  </span>
-                </li>
+                    Apply Now
+                  </button>
+                </>
               ))}
             </ul>
 
