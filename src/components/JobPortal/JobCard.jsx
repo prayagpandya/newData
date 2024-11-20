@@ -12,7 +12,7 @@ const JobCard = ({ job, onApply, onViewDetails }) => {
 
   // Function to handle card click navigation
   const handleCardClick = () => {
-    navigate(`/jobs/${job.id}`);
+    navigate(`/jobs/${job._id}`);
   };
 
   return (
