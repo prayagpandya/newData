@@ -33,6 +33,7 @@ const JobDetailsPage = () => {
     title: '',
     description: [],
     company: '',
+    jobPostId: id,
     jobinfo: {
       employeeType: '',
       location: '',
