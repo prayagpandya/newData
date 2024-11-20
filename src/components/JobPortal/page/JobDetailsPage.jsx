@@ -183,12 +183,6 @@ const JobDetailsPage = () => {
                       {qualification}
                     </span>
                   </li>
-                  <button
-                    onClick={handleOpenModal}
-                    className="mt-6 px-4 bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-semibold py-2 rounded-md text-lg"
-                  >
-                    Apply Now
-                  </button>
                 </>
               ))}
             </ul>
