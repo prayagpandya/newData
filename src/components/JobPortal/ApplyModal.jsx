@@ -5,6 +5,7 @@ import { url } from '../../url';
 import AnimatedInputField from './AnimatedInput'; // Ensure correct path
 
 const ApplyModal = ({ job, closeModal }) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +13,7 @@ const ApplyModal = ({ job, closeModal }) => {
     coverLetter: '',
     cv: null,
     jobrole: '',
+    jobPostId: job?._id,
   });
   const toast = useToast();
   useEffect(() => {
@@ -39,6 +41,7 @@ const ApplyModal = ({ job, closeModal }) => {
   };
 
   const handleSubmit = async e => {
+    setLoading(true);
     e.preventDefault();
     try {
       console.log(formData);
@@ -52,6 +55,8 @@ const ApplyModal = ({ job, closeModal }) => {
       if (response) {
         console.log('Application submitted successfully:', response);
         closeModal();
+        window.location.reload();
+        setLoading(false);
         toast({
           title: 'Application submitted successfully',
           description: 'Email has been sent',
@@ -61,14 +66,28 @@ const ApplyModal = ({ job, closeModal }) => {
         });
       }
     } catch (error) {
-      console.error('Error submitting application:', error);
+      setLoading(false);
+      closeModal();
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   // Input fields data
   const inputFields = [
+    // {
+    //   type: 'text',
+    //   name: 'jobPostId',
+    //   value: job?._id,
+    //   readOnly: true,
+    //   hidden: true,
+    // },
     {
-      // label: "Job Role",
+      label: 'Job Role',
       type: 'text',
       name: 'jobrole',
       value: formData.jobrole,
@@ -105,7 +124,11 @@ const ApplyModal = ({ job, closeModal }) => {
     },
   ];
 
-  return (
+  return loading ? (
+    <div className="flex justify-center items-center">
+      <div className="loader border-t-4 border-b-4 border-yellow-500 rounded-full w-16 h-16 animate-spin"></div>
+    </div>
+  ) : (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
         <h2 className="text-xl font-semibold mb-4">Apply for {job?.title}</h2>
@@ -121,6 +144,7 @@ const ApplyModal = ({ job, closeModal }) => {
               onChange={field.onChange}
               readOnly={field.readOnly}
               isTextArea={field.isTextArea}
+              hidden={field.hidden}
             />
           ))}
 

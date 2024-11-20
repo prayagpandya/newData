@@ -32,6 +32,7 @@ const ManageJobs = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useNavigate();
   const toast = useToast();
+
   // State to store jobs and the form data
   const [jobs, setJobs] = useState([]);
   const [jobForm, setJobForm] = useState({
@@ -47,20 +48,28 @@ const ManageJobs = () => {
       datePosted: '',
       vacancies: '',
       applied: '',
-      logo: '',
+      logo: null, // Initialize as null
     },
     createdBy: '',
     responsibilities: [],
     qualifications: [],
   });
+
   const fetchJobs = async () => {
     try {
       const response = await axios.get(`${url}/api/v1/jobs/`);
-      setJobs(response.data.data);
+      console.log('API Response:', response.data.data); // Log the entire response
+
+      if (Array.isArray(response.data.data)) {
+        setJobs(response.data.data); // Set jobs directly if it's an array
+      } else {
+        console.error('Unexpected response structure:', response.data);
+      }
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
   };
+
   // Fetch jobs from the API when component mounts
   useEffect(() => {
     fetchJobs();
@@ -118,7 +127,12 @@ const ManageJobs = () => {
     try {
       const formData = new FormData();
       formData.append('title', jobForm.title);
-      formData.append('description', JSON.stringify(jobForm.description));
+
+      // Append each item in the description array separately
+      jobForm.description.forEach(desc => {
+        formData.append('description[]', desc); // Use 'description[]' for array
+      });
+
       formData.append('company', jobForm.company);
       formData.append('employeeType', jobForm.jobinfo.employeeType);
       formData.append('location', jobForm.jobinfo.location);
@@ -129,17 +143,22 @@ const ManageJobs = () => {
       formData.append('vacancies', jobForm.jobinfo.vacancies);
       formData.append('applied', jobForm.jobinfo.applied);
       formData.append('createdBy', jobForm.createdBy);
-      formData.append(
-        'responsibilities',
-        JSON.stringify(jobForm.responsibilities)
-      );
-      formData.append('qualifications', JSON.stringify(jobForm.qualifications));
+
+      // Append each item in the responsibilities array separately
+      jobForm.responsibilities.forEach(resp => {
+        formData.append('responsibilities[]', resp); // Use 'responsibilities[]' for array
+      });
+
+      // Append each item in the qualifications array separately
+      jobForm.qualifications.forEach(qual => {
+        formData.append('qualifications[]', qual); // Use 'qualifications[]' for array
+      });
 
       // Ensure logo is appended only if it exists (and is a valid file)
       if (jobForm.jobinfo.logo && jobForm.jobinfo.logo instanceof File) {
         formData.append('logo', jobForm.jobinfo.logo); // Append the file object
       } else {
-        console.error(jobForm, 'Logo file is missing.');
+        console.error('Logo file is missing or invalid.');
         return; // Prevent submission if logo is missing
       }
 
@@ -153,34 +172,41 @@ const ManageJobs = () => {
         }
       );
 
-      setJobs([response.data.data, ...jobs]);
-      onClose();
-      setJobForm({
-        title: '',
-        description: [],
-        company: '',
-        jobinfo: {
-          employeeType: '',
-          location: '',
-          jobType: '',
-          experience: '',
-          salary: '',
-          datePosted: '',
-          logo: '', // Reset logo after submission
-          vacancies: '',
-          applied: '',
-        },
-        createdBy: '',
-        responsibilities: [],
-        qualifications: [],
-      });
-      await fetchJobs();
-      toast({
-        title: 'Success',
-        description: 'Job created successfully.',
-        status: 'success',
-        duration: 3000,
-      });
+      if (response.data?.data) {
+        setJobs(prevJobs => [response.data.data, ...prevJobs]);
+        onClose();
+        setJobForm({
+          title: '',
+          description: [],
+          company: '',
+          jobinfo: {
+            employeeType: '',
+            location: '',
+            jobType: '',
+            experience: '',
+            salary: '',
+            datePosted: '',
+            logo: null, // Reset logo after submission
+            vacancies: '',
+            applied: '',
+          },
+          createdBy: '',
+          responsibilities: [],
+          qualifications: [],
+        });
+        await fetchJobs();
+        toast({
+          title: 'Success',
+          description: 'Job created successfully.',
+          status: 'success',
+          duration: 3000,
+        });
+      } else {
+        console.error(
+          'Unexpected response structure on job creation:',
+          response.data
+        );
+      }
     } catch (error) {
       console.error('Error creating job:', error);
     }
@@ -449,21 +475,22 @@ const ManageJobs = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {jobs.map(job => (
-              <Tr key={job._id}>
-                <Td>{job.title}</Td>
-                <Td>{job.company}</Td>
-                <Td>{job.datePosted}</Td>
-                <Td>
-                  <Button
-                    colorScheme="teal"
-                    onClick={() => history(`/jobs/${job._id}`)}
-                  >
-                    View
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
+            {Array.isArray(jobs) &&
+              jobs.map(job => (
+                <Tr key={job._id}>
+                  <Td>{job.title}</Td>
+                  <Td>{job.company}</Td>
+                  <Td>{job.jobinfo.datePosted}</Td>
+                  <Td>
+                    <Button
+                      colorScheme="teal"
+                      onClick={() => history(`/jobs/${job._id}`)}
+                    >
+                      View
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       </TableContainer>

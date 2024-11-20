@@ -3,10 +3,11 @@ import { FaRegPaperPlane } from 'react-icons/fa'; // Apply Now icon
 import { AiOutlineInfoCircle } from 'react-icons/ai'; // More Details icon
 import { FaBriefcase, FaMapMarkerAlt, FaRegClock } from 'react-icons/fa'; // New icons
 import { useNavigate } from 'react-router-dom'; // For programmatic navigation
+import { url } from '../../url';
 
 const JobCard = ({ job, onApply, onViewDetails }) => {
   const navigate = useNavigate();
-  const appliedPercentage = (job.applied / job.vacancies) * 100;
+  const appliedPercentage = job.jobinfo.applied;
   const isUrgent = appliedPercentage >= 80; // Define a threshold for urgency (e.g., 80% filled)
 
   // Function to handle card click navigation
@@ -23,19 +24,19 @@ const JobCard = ({ job, onApply, onViewDetails }) => {
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <div className="flex items-center">
           <img
-            src={job.companyLogo}
+            src={`${url}/public${job.jobinfo.logo}`}
             alt={job.company}
-            className="w-16 h-16 rounded-full mr-4"
+            className="w-16 h-16 object-contain  rounded-full mr-4"
           />
           <div>
             <h3 className="font-semibold text-lg text-gray-800">
               {job.company}
             </h3>
-            <p className="text-sm text-gray-500">{job.postTime}</p>
+            <p className="text-sm text-gray-500">{job.jobinfo.datePosted}</p>
           </div>
         </div>
-        <span className="px-3 py-1 text-sm font-medium text-black bg-[#F6EC88] rounded-full">
-          {job.jobType}
+        <span className="px-3 py-1 text-[10px] font-medium text-black bg-[#F6EC88] rounded-full">
+          {job.jobinfo.jobType}
         </span>
       </div>
 
@@ -44,20 +45,20 @@ const JobCard = ({ job, onApply, onViewDetails }) => {
           <FaBriefcase className="mr-2" /> {job.title}
         </h4>
         <p className="text-right text-sm text-gray-500 flex items-center">
-          <FaMapMarkerAlt className="mr-2" /> {job.location}
+          <FaMapMarkerAlt className="mr-2" /> {job.jobinfo.location}
         </p>
       </div>
 
       <div className="px-4 text-sm text-gray-500 flex items-center">
         <FaRegClock className="mr-2" />
-        {job.exp}
+        {job.jobinfo.experience}
       </div>
 
       {/* Vacancies and Applied Section with Motivational Text */}
       <div className="mb-2 py-1 px-4">
         <div className="flex justify-between text-sm text-gray-500 mb-2">
-          <span>Vacancies: {job.vacancies}</span>
-          <span>Applied: {job.applied}</span>
+          <span>Vacancies: {job.jobinfo.vacancies}</span>
+          <span>Applied: {job.jobinfo.applied}</span>
         </div>
 
         {/* Progress Bar with motivational message */}
@@ -87,8 +88,8 @@ const JobCard = ({ job, onApply, onViewDetails }) => {
       <div className="flex justify-between pb-4 px-4">
         <button
           onClick={e => {
-            e.stopPropagation(); // Prevent the card click from triggering
-            onApply(job); // Trigger the onApply callback
+            e.stopPropagation();
+            onApply(job);
           }}
           className="px-5 py-2.5 font-medium bg-[#F6EC88] text-black hover:bg-yellow-500 rounded-lg text-sm flex items-center"
         >

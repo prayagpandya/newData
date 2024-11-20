@@ -1,6 +1,34 @@
 import React from 'react';
 
-const Filters = () => {
+const Filters = ({
+  filters,
+  setFilters,
+  uniqueJobTypes,
+  uniqueLocations,
+  uniqueRoles,
+  salaryRange, // Receive salary range as prop
+}) => {
+  const handleJobTypeChange = e => {
+    setFilters({ ...filters, jobType: e.target.value });
+  };
+
+  const handleLocationChange = e => {
+    setFilters({ ...filters, location: e.target.value });
+  };
+
+  const handleRoleChange = e => {
+    const { value, checked } = e.target;
+    const updatedRoles = checked
+      ? [...filters.roles, value]
+      : filters.roles.filter(role => role !== value);
+    setFilters({ ...filters, roles: updatedRoles });
+  };
+
+  const handleSalaryChange = e => {
+    const value = e.target.value;
+    setFilters({ ...filters, salaryRange: [salaryRange[0], value] }); // Update only the max value
+  };
+
   return (
     <div className="bg-white sticky top-0 dark:bg-[#1A202C] p-4 shadow-md rounded-md">
       <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">
@@ -12,12 +40,16 @@ const Filters = () => {
             Job Type
           </span>
         </label>
-        <select className="select select-bordered dark:bg-[#2D3748] dark:text-white">
-          <option>Full Time</option>
-          <option>Part Time</option>
-          <option>Contract</option>
-          <option>Internship</option>
-          <option>Temporary</option>
+        <select
+          className="select select-bordered dark:bg-[#2D3748] dark:text-white"
+          onChange={handleJobTypeChange}
+        >
+          <option value="">All</option>
+          {uniqueJobTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -28,14 +60,16 @@ const Filters = () => {
             Location
           </span>
         </label>
-        <select className="select select-bordered dark:bg-[#2D3748] dark:text-white">
-          <option>New York, US</option>
-          <option>San Francisco, US</option>
-          <option>Toronto, Canada</option>
-          <option>Vancouver, Canada</option>
-          <option>Delhi, India</option>
-          <option>Bangalore, India</option>
-          <option>Mumbai, India</option>
+        <select
+          className="select select-bordered dark:bg-[#2D3748] dark:text-white"
+          onChange={handleLocationChange}
+        >
+          <option value="">All</option>
+          {uniqueLocations.map((location, index) => (
+            <option key={index} value={location}>
+              {location}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -46,42 +80,20 @@ const Filters = () => {
             Job Roles
           </span>
         </label>
-        <div className="flex items-center">
-          <input type="checkbox" className="mr-2" id="developer" />
-          <label
-            htmlFor="developer"
-            className="text-gray-700 dark:text-gray-300"
-          >
-            Developer
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" className="mr-2" id="designer" />
-          <label
-            htmlFor="designer"
-            className="text-gray-700 dark:text-gray-300"
-          >
-            Designer
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" className="mr-2" id="project-manager" />
-          <label
-            htmlFor="project-manager"
-            className="text-gray-700 dark:text-gray-300"
-          >
-            Project Manager
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" className="mr-2" id="qa-engineer" />
-          <label
-            htmlFor="qa-engineer"
-            className="text-gray-700 dark:text-gray-300"
-          >
-            QA Engineer
-          </label>
-        </div>
+        {uniqueRoles.map(role => (
+          <div className="flex items-center" key={role}>
+            <input
+              type="checkbox"
+              className="mr-2"
+              id={role}
+              value={role}
+              onChange={handleRoleChange}
+            />
+            <label htmlFor={role} className="text-gray-700 dark:text-gray-300">
+              {role}
+            </label>
+          </div>
+        ))}
       </div>
 
       {/* Salary Range */}
@@ -93,13 +105,14 @@ const Filters = () => {
         </label>
         <input
           type="range"
-          min="0"
-          max="100000"
+          min={salaryRange[0]} // Set min value from salaryRange
+          max={salaryRange[1]} // Set max value from salaryRange
           step="5000"
           className="range range-warning range-xs"
+          onChange={handleSalaryChange}
         />
         <div className="text-xs mt-2 text-gray-500 dark:text-gray-400">
-          $0 - $100,000+
+          ₹{filters.salaryRange[0]} - ₹{filters.salaryRange[1]}+
         </div>
       </div>
 
